@@ -5,5 +5,5 @@ const {handleHomeRoute,SignIn,getUserProfile,updateUser} = require('../Controlle
 router.get('/',handleHomeRoute);
 router.get("/profile/:query",getUserProfile);
 router.post('/sign',SignIn);
-router.put('/UpdateUser',updateUser)
+router.put('/UpdateUser',updateUser);
 module.exports = router;
