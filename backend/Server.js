@@ -1,16 +1,17 @@
 const mongoose = require('mongoose')
 const express = require('express')
 const route = require('./Routers/UserRoute')
-
+const cors = require('cors')
 
 
 require('dotenv').config();
 
 
 const url = process.env.MONGODB_URI;
-const app = express();
-const port = 3000 || 5000;
 
+const app = express();
+app.use(cors());
+const port = 3000 || 5000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
