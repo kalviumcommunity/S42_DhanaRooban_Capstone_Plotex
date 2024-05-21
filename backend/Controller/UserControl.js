@@ -31,7 +31,7 @@ const updateUser = async(req,res)=>{
     const UserProfile = await userDataModel.findOneAndUpdate({email:email,name:name,number:number})
     res.status(UserProfile ? 200 : 404).send(UserProfile || 'Profile not updated.');
    } catch (error) {
-    console.log(error)
+    console.log("error")
    }
 }
 
