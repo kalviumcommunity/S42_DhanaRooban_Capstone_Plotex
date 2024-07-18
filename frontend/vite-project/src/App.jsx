@@ -1,24 +1,45 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+} from "react-router-dom";
 import Login from "./components/Login";
 import Sign from "./components/Sign";
-import Home from "./components/Home"; // Import the Home component
-import OtpVerification from "./components/OTPPage";
-
+import Home from "./components/Home"; 
+import CurrentUserProvider from './Atoms/CurrentUser';
+import Welcome from "./Pages/Welcome";
+import FindSpace from "./Pages/FindSpace"
+import RentSpace from "./Pages/RentSpace";
+import BasicMap from "./components/BasicMap";
+import AboutUs from "./Pages/AboutUs";
+import RentForm from "./components/RentForm";
+import { homePageContent,aboutPageContent } from "./Services/FrontendData";
+import { Box, ChakraProvider } from '@chakra-ui/react';
+import { useState } from "react";
 function App() {
-  return (
+  const [homeContent, setHomeContent] = useState(homePageContent);
+  const [aboutContent, setAboutContent] = useState(aboutPageContent);
 
+  return (
     <Router>
+      <CurrentUserProvider>
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
         <Route path="/sign" element={<Sign />} />
-        <Route path="/verify" element={<OtpVerification />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/welcome" element={<Welcome content={homeContent} />}/>
+        <Route path="/about" element={<AboutUs content={aboutContent} />}/>
+        <Route path="/find-space" element={<FindSpace/>}/>
+        <Route path="/rent-space" element={<RentSpace/>}/>
+        <Route path="/map" element={<BasicMap/>} />
         <Route path="*" element={<Navigate to="/" />} />
+        <Route path="/RentForm" element={<RentForm />} />
       </Routes>
+      </CurrentUserProvider>
     </Router>
-  ) ;
+  );
 }
 
 export default App;
-

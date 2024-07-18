@@ -1,32 +1,42 @@
-import React from 'react'
+import React, { useEffect , useState, useContext,} from "react";
 import {
-    Box,
-    Center,
-    FormControl,
-    FormLabel,
-    Input,
-    Button,
-    Checkbox,
-    Flex,
-    VStack,
-    Link,
-    Text,
-  } from "@chakra-ui/react";
-  import backgroundImage from '../assets/Images/SignPage/bg.svg'; 
+  Box,
+  Center,
+  Button,
+  VStack,
+  Text,
+} from "@chakra-ui/react";
+import UserContext from "../Atoms/UserContext";
+import { useNavigate } from "react-router-dom";
+import { homePageContent } from "../Services/FrontendData";
+import AboutUs from "../Pages/AboutUs"
 function Home() {
+  const [userName, setUserName] = useState('');
+  const { currentUser, loading } = useContext(UserContext);
+
+
   return (
-    <Center h="50vh"  bgImage={`url(${backgroundImage})`}>
-    <VStack spacing={4}>
-      <Box boxSize="sm">
-        <link></link>
-      </Box>
-      <Text className="Bold" fontSize="2xl">Welcome Dhana!</Text>
-      <Button colorScheme="green" size="lg" className='Semibold'>
-        ACCESS NAME HOME
-      </Button>
-    </VStack>
-  </Center>
-  )
+    <>
+    <Center h="100vh" overflowY="auto"
+    p={4} >
+      <VStack spacing={4}>
+        <Text className="Bold" fontSize="2xl">
+          Welcome { userName || 'Guest!'}
+        </Text>
+        <Button
+        onClick={useNavigate}
+          colorScheme="green"
+          size="lg"
+          className="Semibold"
+        >
+          ACCESS NAME HOME
+        </Button>
+      </VStack>
+    </Center>
+    <AboutUs/>
+    </>
+  );
 }
 
-export default Home
+export default Home;
+

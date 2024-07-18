@@ -1,102 +1,207 @@
-import React from 'react'
+import React, { useState } from "react";
 import {
   Box,
   Center,
-  FormControl,
-  FormLabel,
   Input,
   Button,
-  Checkbox,
   Flex,
   Link,
+  Stack,
   Text,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
+  useDisclosure,
 } from "@chakra-ui/react";
-import { useState } from 'react';
-import apple from "../assets/Images/SignPage/apple.png";
+import { useForm } from "react-hook-form";
+import { useToast } from "@chakra-ui/react";
+import "../App.css";
+import { NavLink } from "react-router-dom";
 import Google from "../assets/Images/SignPage/Google.png";
-import microsoft from "../assets/Images/SignPage/microsoft.png";
+import Microsoft from "../assets/Images/SignPage/microsoft.png";
+import Apple from "../assets/Images/SignPage/apple.png";
 
-function Login() {
+import { auth } from "../Services/firebaseAuth";
+import { GoogleAuthProvider } from "firebase/auth";
+import { signInWithPopup } from "firebase/auth";
+
+import "react-phone-number-input/style.css";
+import toast, { Toaster } from "react-hot-toast";
+import showToast from "react-hot-toast";
+import axios from "axios";
+import BASE_URL from "../Config";
+import StoreCookies from 'js-cookie';
+import handleGoogleSignIn from "../Services/GoogleAuth"
+function SignUpForm() {
   const [isHovered, setIsHovered] = useState(false);
+  const [otp, setOtp] = useState("");
+  const [showOTPInput, setShowOTPInput] = useState(false);
+  const { isOpen, onClose, onOpen } = useDisclosure();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  const toast = useToast();
+
+    const onSubmit = async (value) => {
+      try {
+        const modifiedData = {
+          Email: value.email.toUpperCase(),
+          Password: value.password.trim(),
+        };
+        const response = await axios.post(`${BASE_URL}/login`,
+          modifiedData
+        )
+        const Token = response.data.token
+        StoreCookies.set('authToken', Token, {expires:31});
+        console.log('Token stored successfully');
+      } catch (error) {
+        showToast("Error", error.message || "An error occurred", "error");
+      }
+    };
+
+
+  const renderInput = (inputProps) => (
+    <input
+      {...inputProps}
+      style={{ width: "40px", height: "40px", margin: "8px" }}
+    />
+  );
+
+
   return (
-    <Center display="flex" flexDirection="column">
-        <Box
-          w="35vw"
+    <>
+      <Box
+        bg="#fff"
+        p="4"
+        w="100vw"
+        display="flex"
+        justifyContent="space-between"
+        alignItems="center"
+        position="absolute"
+      >
+        <Text fontSize="lg">pLoTeX</Text>
+        <Text className="regular" color="black">
+          Have a  Account?{" "}
+          <Link as="span" color="#f54" className="Semibold">
+            <NavLink to="/sign">SIGNIN</NavLink>
+          </Link>
+        </Text>
+      </Box>
+      <Center>
+        <Toaster toastOptions={{ duration: 4000 }} />
+        <Stack
           mt="100"
           className="regular"
-          display="flex"
-          flexDirection="column"
+           mb={4}
         >
-          <Text
-            className="Semibold"
-            fontSize="2xl"
-            textAlign="left"
-            width="fit-content"
-            mb={4} // Add margin bottom
+          <form
+            onSubmit={handleSubmit(onSubmit)}
           >
-            Start with your free account today.
-          </Text>
-          <FormControl mb={4}>
-            {" "}
-            {/* Add margin bottom */}
-            <FormLabel className="placeholder">Email *</FormLabel>
+            <label>Email</label>
             <Input
-              borderRadius="2px"
-              borderWidth="2px"
-              type="text"
-              className="form-control"
-              placeholder="Enter Email"
+              mb={4}
+              borderRadius="2"
+              borderWidth="2"
               size="md"
+              className="form-control"
+              type="text"
+              name="email"
+              placeholder="Email*"
+              {...register("email", {
+                required: "Email is required",
+              })}
             />
-          </FormControl>
-          <FormControl mb={4}>
-            <FormLabel className="placeholder">Password*</FormLabel>
+            {errors.email && <Text color="red">{errors.email.message}</Text>}
+
+            <label>Password</label>
             <Input
+               mb={4}
+              borderRadius="2"
+              borderWidth="2"
+              size="md"
               type="password"
+              name="password"
               className="form-control"
-              placeholder="Enter Password"
-              size="lg"
+              placeholder="Password *"
+              {...register("password", {
+                required: "Password is required",
+                minLength: {
+                  value: 5,
+                  message: "Password must be more than 4 characters",
+                },
+              })}
             />
-          </FormControl>
-          <FormControl mb={4}>
-            <FormLabel className="placeholder">Number*</FormLabel>
-            <Input
-              type="number"
-              className="form-control"
-              placeholder="Enter Number"
-              size="lg"
-            />
-          </FormControl>
-          <Checkbox mb={4}>
-            I agree to the <Link color="blue">Terms and Conditions</Link>
-          </Checkbox>
-          <Button
-            colorScheme="red"
-            size="lg"
-            className="Semibold"
-            type="submit"
-            borderRadius="0"
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
-            mb={4} // Add margin bottom
-          >
-            {isHovered ? "Welcome" : "Sign Up for Free"}
-          </Button>
-          <Text>or Sign in using</Text>
-          <Flex justifyContent="space-between" width='40%' mt="5" >
-            <Button size="sm" w="45px" h="50px">
-              <img src={Google} alt="" />
-            </Button>
-            <Button size="sm" w="45px" h="50px">
-              <img src={microsoft} alt="" />
-            </Button>
-            <Button size="sm" w="50px" h="50px">
-              <img src={apple} alt="" />
-            </Button>
-          </Flex>
-        </Box>
+            {errors.password && (
+              <Text color="red">{errors.password.message}</Text>
+            )}
+            <Box display="flex" justifyContent="center">
+              <Button
+                w="100%"
+                colorScheme="yellow"
+                size="lg"
+                className="Semibold"
+                type="submit"
+                // onClick={sendOTP}
+                style={{ borderRadius: 0 }}
+                onMouseEnter={() => setIsHovered(true)}
+                onMouseLeave={() => setIsHovered(false)}
+              >
+                {isHovered ? "Sign Up For Free" : "Welcome"}
+              </Button>
+            </Box>
+            <Modal isOpen={isOpen} onClose={onClose} isCentered>
+              <ModalOverlay />
+              <ModalContent>
+                <ModalHeader>
+                  <ModalCloseButton />
+                </ModalHeader>
+                <ModalBody>
+                  {showOTPInput && (
+                    <>
+                      <OtpInput
+                        numInputs={4}
+                        type="text"
+                        placeholder="Enter OTP"
+                        value={otp}
+                        onChange={(e) => setOtp(e.target.value)}
+                      />
+                    </>
+                  )}
+                </ModalBody>
+                <ModalFooter display="flex" justifyContent="center">
+                  <Button type="submit" form="new-note" >
+                    Submit
+                  </Button>
+                </ModalFooter>
+              </ModalContent>
+            </Modal>
+
+            <Text>or Login in using</Text>
+
+            <Flex justifyContent="space-between" width="40%" mt="5">
+              <Button size="sm" w="45px" h="50px" onClick={handleGoogleSignIn}>
+                <img src={Google} alt="" />
+              </Button>
+              <Button size="sm" w="45px" h="50px">
+                <img src={Microsoft} alt="" />
+              </Button>
+              <Button size="sm" w="50px" h="50px">
+                <img src={Apple} alt="" />
+              </Button>
+            </Flex>
+          </form>
+        </Stack>
       </Center>
-  )
+      <div id="recaptcha-container"></div>
+    </>
+  );
 }
 
-export default Login
+export default SignUpForm;
