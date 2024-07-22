@@ -36,12 +36,12 @@ const SignIn = async (req, res) => {
       const token = await generateToken(newUser);
       res.status(200).json({ message: "Successfully signed in", token });
     } catch (error) {
-      console.error("Error saving new user:", error); // Added for debugging purposes
+      console.error("Error saving new user:", error); 
       return res.status(500).json({ message: "An error occurred during token generation" });
     }
 
   } catch (error) {
-    console.error("Error during sign-in:", error); // Added for debugging purposes
+    console.error("Error during sign-in:", error); 
     res.status(500).json({ message: "An error occurred during sign-in" });
   }
 };
@@ -84,7 +84,6 @@ const getUserProfile = async (req, res) => {
       return res.status(401).json({ message: "Authentication required.Please log in" });
     }
     var data = req.TokenData;
-    console.log("dd",data)
     const FilterData = await UserDataModel.findOne({email: data.email});
     res.json({FilterData});
 
