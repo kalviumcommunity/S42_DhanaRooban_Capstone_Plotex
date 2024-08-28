@@ -18,9 +18,12 @@ import RentForm from "./components/RentForm";
 import { homePageContent,aboutPageContent } from "./Services/FrontendData";
 import { Box, ChakraProvider } from '@chakra-ui/react';
 import { useState } from "react";
+import { useEffect } from "react";
 function App() {
-  const [homeContent, setHomeContent] = useState(homePageContent);
-  const [aboutContent, setAboutContent] = useState(aboutPageContent);
+
+    const [homeContent, setHomeContent] = useState(homePageContent);
+    const [aboutContent, setAboutContent] = useState(aboutPageContent);
+
 
   return (
     <Router>

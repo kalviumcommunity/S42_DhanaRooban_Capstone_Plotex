@@ -36,6 +36,7 @@ import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
 import BASE_URL from "../Config";
 import StoreCookies from "js-cookie";
+
 import handleGoogleSignIn from "../Services/GoogleAuth";
 import { useNavigate } from "react-router-dom";
 function SignUpForm() {
@@ -51,6 +52,8 @@ function SignUpForm() {
   } = useForm();
   const toast = useToast();
   const navigate = useNavigate(); 
+
+
   const onSubmit = async (value) => {
     try {
       const modifiedData = {
@@ -77,6 +80,8 @@ function SignUpForm() {
       });
     }
   };
+
+  
 
   const renderInput = (inputProps) => (
     <input
@@ -140,6 +145,7 @@ function SignUpForm() {
       });
       return;
     }
+    
     window.confirmationResult
       .confirm(otp)
       .then((result) => {

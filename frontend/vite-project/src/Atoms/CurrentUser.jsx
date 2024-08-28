@@ -10,7 +10,7 @@ function CurrentUserProvider({ children }) {
   const [loading, setLoading] = useState(true);
   const token = Cookies.get('authToken');
   
-
+console.log(token)
   useEffect(() => {
     const fetchCurrentUser = async () => {
       try {
@@ -23,15 +23,19 @@ function CurrentUserProvider({ children }) {
         setCurrentUser(response.data.FilterData);
       } catch (error) {
         console.log(error.message);
-        if (error.response && error.response.status === 403) {
-          window.location.href = '/login';
-        }
+        // if (error.response && error.response.status === 403) {
+        //   window.location.href = '/login';
+        // }
       } finally {
         setLoading(false);
       }
     };
       fetchCurrentUser();
   }, [token]);
+
+
+
+  
 
   return (
     <UserContext.Provider value={{ currentUser, loading }}>
