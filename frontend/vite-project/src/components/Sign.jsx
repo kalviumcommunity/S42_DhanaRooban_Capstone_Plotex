@@ -63,13 +63,13 @@ function SignUpForm() {
       };
 
       const response = await axios.post(
-        `${BASE_URL}/sign`,
+        `${BASE_URL}/singin`,
         modifiedData,
       );
 
       const Token = response.data.token;
       StoreCookies.set("authToken", Token, { expires: 7 });
-      navigate('/welcome');
+      navigate('/home');
     } catch (error) {
       toast({
         title: "Error",
@@ -271,6 +271,7 @@ function SignUpForm() {
                 {isHovered ? "Sign Up For Free" : "Welcome"}
               </Button>
             </Box>
+
             <Modal isOpen={isOpen} onClose={onClose} isCentered>
               <ModalOverlay />
               <ModalContent>

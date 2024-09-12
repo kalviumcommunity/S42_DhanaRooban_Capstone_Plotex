@@ -31,7 +31,7 @@ function App() {
       <Routes>
         <Route path="/sign" element={<Sign />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/" element={<Home />} />
+        <Route path="/home" element={<Home />} />
         <Route path="/welcome" element={<Welcome content={homeContent} />}/>
         <Route path="/about" element={<AboutUs content={aboutContent} />}/>
         <Route path="/find-space" element={<FindSpace/>}/>

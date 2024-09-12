@@ -19,7 +19,6 @@ console.log(token)
             token: token,
           },
         });
-        console.log(response.data)
         setCurrentUser(response.data.FilterData);
       } catch (error) {
         console.log(error.message);
