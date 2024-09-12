@@ -13,36 +13,6 @@ const Check = (req, res) => {
 
 
 
-const SignIn = async (req, res) => {
-  try {
-  
-    const { Email, PhoneNumber, Password } = req.body;
-    const hashedPassword = await hashPassword(Password)
-    const userEmail = Email;
-    let token;
-    try {
-      const existingUser = await UserDataModel.findOne({ email: userEmail });
-      if (existingUser) {
-        return res.status(400).json({ error: "User already exists" });
-      }
-      const newUser = new UserDataModel({
-        email: userEmail,
-        phoneNumber: PhoneNumber,
-        password: hashedPassword,
-      });
-      await newUser.save();
-      const token = await generateToken(newUser);
-      res.status(200).json({ message: "Successfully signed in", token });
-    } catch (error) {
-      console.error("Error saving new user:", error); 
-      return res.status(500).json({ message: "An error occurred during token generation" });
-    }
-
-  } catch (error) {
-    console.error("Error during sign-in:", error); 
-    res.status(500).json({ message: "An error occurred during sign-in" });
-  }
-};
 
 const LogIn = async (req, res) => {
   const { Email, Password , GoogleUserData} = req.body;
