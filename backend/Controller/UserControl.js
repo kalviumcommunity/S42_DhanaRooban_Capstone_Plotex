@@ -44,35 +44,6 @@ const SignIn = async (req, res) => {
   }
 };
 
-const LogIn = async (req, res) => {
-  const { Email, Password , GoogleUserData} = req.body;
-
-  try {
-    const data = await UserDataModel.findOne({$or:[{ email: Email },{email :GoogleUserData.email}]});
-    if (!data) {
-      return res.status(401).json({ error: "Cannot find your account" });
-    }
- 
-    if (GoogleUserData.email === data.email) {
-      return res.status(400).json({ error: "This account is registered with Google. Please log in using Google." });
-    }
-
-    const NewUser = { email: data.email, id: data._id };
-
-    const match = await bcrypt.compare(Password, data.password);
-
-    if (match) {
-      const token = await generateToken(NewUser);
-      return res.status(200).json({ message: "Login successfully",token});
-    } else {
-      return res.status(403).json({ error: "Incorrect password" });
-    }
-
-  } catch (err) {
-    return res.status(401).json({ error: err.message });
-  }
-
-};
 
 
 const getUserProfile = async (req, res) => {
