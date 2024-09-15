@@ -126,4 +126,6 @@ const GoogleAuthentication = async (req, res) => {
     res.status(500).json({ error: "An error occurred during Google authentication" });
   }
 };
+
+
 module.exports = { Check, SignIn, getUserProfile, updateUser, LogIn,GoogleAuthentication };
