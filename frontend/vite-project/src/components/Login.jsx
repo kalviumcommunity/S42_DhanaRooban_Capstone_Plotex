@@ -35,7 +35,7 @@ import showToast from "react-hot-toast";
 import axios from "axios";
 import BASE_URL from "../Config";
 import StoreCookies from 'js-cookie';
-import handleGoogleSignIn from "../Services/GoogleAuth"
+// import handleGoogleSignIn from "../Services/GoogleAuth"
 function SignUpForm() {
   const [isHovered, setIsHovered] = useState(false);
   const [otp, setOtp] = useState("");
