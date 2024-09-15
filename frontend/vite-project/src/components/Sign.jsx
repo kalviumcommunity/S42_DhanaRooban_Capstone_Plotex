@@ -185,6 +185,7 @@ function SignUpForm() {
       const result = await signInWithPopup(auth, provider);
       const profile = result.user;
 
+      
       const GoogleUserData = {
         id: profile.uid,
         fullName: profile.displayName,
@@ -194,7 +195,6 @@ function SignUpForm() {
         email: profile.email,
       };
     
-
       const response = await axios.post(
         `${BASE_URL}/gsignin`,
         { GoogleUserData },
