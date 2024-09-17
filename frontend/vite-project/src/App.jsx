@@ -23,6 +23,8 @@ function App() {
         <Route path="/map" element={<BasicMap />} />
         <Route path="/" element={<Navigate to="/welcome" />} />
         <Route path="/RentForm" element={<RentForm />} />
+
+        
       </Routes>
     </Router>
   );
