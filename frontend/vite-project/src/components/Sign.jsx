@@ -68,7 +68,7 @@ function SignUpForm() {
 
       const Token = response.data.token;
       StoreCookies.set("authToken", Token, { expires: 7 });
-      navigate('/home');
+      navigate('/find-space');
     } catch (error) {
       toast({
         title: "Error",
