@@ -17,6 +17,7 @@ const SignIn = async (req, res) => {
   try {
   
     const { Email, PhoneNumber, Password } = req.body;
+    console.log(Email)
     const hashedPassword = await hashPassword(Password)
     const userEmail = Email;
     let token;

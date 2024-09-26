@@ -16,7 +16,7 @@ function App() {
         <Route path="/sign" element={<Sign />} />
         <Route path="/login" element={<Login />} />
         <Route path="/home" element={<Home />} />
-        <Route path="/welcome" element={<Welcome />} />
+        {/* <Route path="/welcome" element={<Welcome />} /> */}
         <Route path="/about" element={<AboutUs />} />
         <Route path="/find-space" element={<FindSpace />} />
         <Route path="/rent-space" element={<RentSpace />} />
