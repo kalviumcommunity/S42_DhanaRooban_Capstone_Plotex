@@ -21,7 +21,7 @@ function App() {
         <Route path="/find-space" element={<FindSpace />} />
         <Route path="/rent-space" element={<RentSpace />} />
         <Route path="/map" element={<BasicMap />} />
-        <Route path="/" element={<Navigate to="/welcome" />} />
+        <Route path="/" element={<Navigate to="/login" />} />
         <Route path="/RentForm" element={<RentForm />} />
 
         
