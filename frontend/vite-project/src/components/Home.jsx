@@ -14,7 +14,26 @@ function Home() {
   const [userName, setUserName] = useState('');
   const { currentUser, loading } = useContext(UserContext);
 
+
   return (
+=======
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (currentUser && currentUser.email) {
+      const firstFourLetters = currentUser.email.substring(0,5).toLowerCase();
+      setUserName(firstFourLetters);
+    }
+  }, [currentUser]);
+  
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+  
+  const handleAccessHome = () => {
+    navigate('/find-space');
+  };
+  return (  
+
     <>
     <Center h="100vh" overflowY="auto"
     p={4} >
@@ -23,7 +42,7 @@ function Home() {
           Welcome { userName || 'Guest!'}
         </Text>
         <Button
-        onClick={useNavigate}
+       onClick={handleAccessHome}
           colorScheme="green"
           size="lg"
           className="Semibold"

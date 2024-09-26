@@ -37,7 +37,6 @@ import axios from "axios";
 import BASE_URL from "../Config";
 import StoreCookies from "js-cookie";
 
-import handleGoogleSignIn from "../Services/GoogleAuth";
 import { useNavigate } from "react-router-dom";
 function SignUpForm() {
   const [isHovered, setIsHovered] = useState(false);
@@ -63,13 +62,13 @@ function SignUpForm() {
       };
 
       const response = await axios.post(
-        `${BASE_URL}/sign`,
+        `${BASE_URL}/singin`,
         modifiedData,
       );
 
       const Token = response.data.token;
       StoreCookies.set("authToken", Token, { expires: 7 });
-      navigate('/welcome');
+      navigate('/home');
     } catch (error) {
       toast({
         title: "Error",
@@ -179,6 +178,36 @@ function SignUpForm() {
   };
 
 
+  const handleGoogleSignIn = async (event) => {
+    event.preventDefault();
+    try {
+      const provider = new GoogleAuthProvider();
+      const result = await signInWithPopup(auth, provider);
+      const profile = result.user;
+
+      
+      const GoogleUserData = {
+        id: profile.uid,
+        fullName: profile.displayName,
+        givenName: profile.displayName.split(' ')[0],
+        familyName: profile.displayName.split(' ')[1],
+        imageUrl: profile.photoURL,
+        email: profile.email,
+      };
+    
+      const response = await axios.post(
+        `${BASE_URL}/gsignin`,
+        { GoogleUserData },
+      );
+      console.log('Response from server:', response);
+
+      navigate('/home');
+    } catch (error) {
+      console.error("Error signing in with Google:", error);
+    }
+  };
+
+
   return (
     <>
       <Box
@@ -271,6 +300,7 @@ function SignUpForm() {
                 {isHovered ? "Sign Up For Free" : "Welcome"}
               </Button>
             </Box>
+
             <Modal isOpen={isOpen} onClose={onClose} isCentered>
               <ModalOverlay />
               <ModalContent>

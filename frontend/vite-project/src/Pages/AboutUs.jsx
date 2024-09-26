@@ -4,6 +4,9 @@ import Navbar from "../components/Navbar";
 
 function AboutUs({ content }) {
  
+  if (!content) {
+    return <div>Loading...</div>;
+  }
   const titleFontSize = useBreakpointValue({ base: "lg", md: "xl" });
   return (
     <>

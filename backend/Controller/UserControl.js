@@ -15,12 +15,15 @@ const Check = (req, res) => {
 
 const SignIn = async (req, res) => {
   try {
+
     const { Email, PhoneNumber, Password } = req.body;
     const hashedPassword = await hashPassword(Password);
+
   
+    const { Email, PhoneNumber, Password } = req.body;
+    const hashedPassword = await hashPassword(Password)
     const userEmail = Email;
     let token;
-
     try {
       const existingUser = await UserDataModel.findOne({ email: userEmail });
       if (existingUser) {
@@ -99,5 +102,28 @@ const updateUser = async (req, res) => {
   } catch (error) {
     console.log("error");
   }
+
 };
-module.exports = { Check, SignIn, getUserProfile, updateUser, LogIn };
+
+const GoogleAuthentication = async (req, res) => {
+  try {
+    console.log("Request body:", req.body);
+    const { GoogleUserData } = req.body;
+    console.log(GoogleUserData);
+
+    if (!GoogleUserData) {
+      return res.status(400).json({ error: "No Google user data provided" });
+    }
+
+    // Process the Google user data here
+    // Example: Store the user data in the database or perform any necessary operations
+
+    res.status(200).json({ message: "Google authentication successful", userData: GoogleUserData });
+  } catch (error) {
+    console.error("Error during Google authentication:", error);
+    res.status(500).json({ error: "An error occurred during Google authentication" });
+  }
+};
+
+
+module.exports = { Check, SignIn, getUserProfile, updateUser, LogIn,GoogleAuthentication };
