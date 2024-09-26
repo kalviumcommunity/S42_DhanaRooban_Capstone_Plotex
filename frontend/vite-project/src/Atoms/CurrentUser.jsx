@@ -1,4 +1,4 @@
-// components/CurrentUserProvider.jsx
+
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
@@ -10,7 +10,6 @@ function CurrentUserProvider({ children }) {
   const [loading, setLoading] = useState(true);
   const token = Cookies.get('authToken');
   
-console.log(token)
   useEffect(() => {
     const fetchCurrentUser = async () => {
       try {
@@ -19,13 +18,10 @@ console.log(token)
             token: token,
           },
         });
-        console.log(response.data)
         setCurrentUser(response.data.FilterData);
+        console.log(response.data.FilterData)
       } catch (error) {
         console.log(error.message);
-        // if (error.response && error.response.status === 403) {
-        //   window.location.href = '/login';
-        // }
       } finally {
         setLoading(false);
       }

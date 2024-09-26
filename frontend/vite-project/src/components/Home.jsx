@@ -14,7 +14,6 @@ function Home() {
   const [userName, setUserName] = useState('');
   const { currentUser, loading } = useContext(UserContext);
 
-
   return (
     <>
     <Center h="100vh" overflowY="auto"
