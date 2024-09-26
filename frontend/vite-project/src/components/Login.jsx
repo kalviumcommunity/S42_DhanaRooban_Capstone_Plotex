@@ -25,9 +25,7 @@ import Google from "../assets/Images/SignPage/Google.png";
 import Microsoft from "../assets/Images/SignPage/microsoft.png";
 import Apple from "../assets/Images/SignPage/apple.png";
 
-import { auth } from "../Services/firebaseAuth";
-import { GoogleAuthProvider } from "firebase/auth";
-import { signInWithPopup } from "firebase/auth";
+
 
 import "react-phone-number-input/style.css";
 import toast, { Toaster } from "react-hot-toast";
@@ -36,10 +34,9 @@ import axios from "axios";
 import BASE_URL from "../Config";
 import StoreCookies from 'js-cookie';
 
-import handleGoogleSignIn from "../Services/GoogleAuth"
+import handleGoogleSignIn from "../../Services/GoogleAuth"
 import { useNavigate } from "react-router-dom";
 
-// import handleGoogleSignIn from "../Services/GoogleAuth"
 
 function SignUpForm() {
   const [isHovered, setIsHovered] = useState(false);
