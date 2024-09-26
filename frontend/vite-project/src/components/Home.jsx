@@ -16,7 +16,7 @@ function Home() {
 
 
   return (
-=======
+
   const navigate = useNavigate();
   useEffect(() => {
     if (currentUser && currentUser.email) {
