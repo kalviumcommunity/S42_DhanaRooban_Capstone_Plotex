@@ -7,7 +7,7 @@ router.get("/profile/:token",authenticateToken,getUserProfile);
 router.put('/UpdateUser',updateUser);
 
 router.post('/sign',SignIn)
-=======
+
 router.post('/singin',SignIn)
 
 
