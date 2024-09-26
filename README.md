@@ -34,6 +34,9 @@ When searching for parking near an emergency situation or a crowded place, findi
 
 Key Features
 
+Backend Deployed link - https://s52-dhanarooban-capstone-plotex.onrender.com
+
+
 User Profile Management: Users can create and manage their profiles on Plotex.
 Comprehensive Resources: Users gain access to a wide range of parking options, including home apprentices and more.
 Advanced: Plotex simplifies and displays already parked places.
