@@ -1,3 +1,4 @@
+
 const jwt = require("jsonwebtoken");
 
 const generateToken = async (NewUser) => {
@@ -18,4 +19,3 @@ const generateToken = async (NewUser) => {
 };
 
 module.exports = { generateToken };
-
