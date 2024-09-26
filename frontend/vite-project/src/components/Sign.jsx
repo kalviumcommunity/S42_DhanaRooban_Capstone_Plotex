@@ -56,7 +56,7 @@ function SignUpForm() {
   const onSubmit = async (value) => {
     try {
       const modifiedData = {
-        Email: value.email.toUpperCase(),
+        Email: value.email.toLowerCase(),
         PhoneNumber: value.phoneNumber.replace(/\D/g, ""),
         Password: value.password.trim(),
       };

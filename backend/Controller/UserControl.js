@@ -15,6 +15,10 @@ const Check = (req, res) => {
 
 const SignIn = async (req, res) => {
   try {
+
+    const { Email, PhoneNumber, Password } = req.body;
+    const hashedPassword = await hashPassword(Password);
+
   
     const { Email, PhoneNumber, Password } = req.body;
     const hashedPassword = await hashPassword(Password)
@@ -45,33 +49,27 @@ const SignIn = async (req, res) => {
 };
 
 const LogIn = async (req, res) => {
-  const { Email, Password , GoogleUserData} = req.body;
-
+  let  { email, password}  = req.body;
+//   console.log(modifiedData)
+//  console.log(modifiedData.email)
   try {
-    const data = await UserDataModel.findOne({$or:[{ email: Email },{email :GoogleUserData.email}]});
+    email = email.toLowerCase();
+    const data = await UserDataModel.findOne({ email });
     if (!data) {
       return res.status(401).json({ error: "Cannot find your account" });
     }
- 
-    if (GoogleUserData.email === data.email) {
-      return res.status(400).json({ error: "This account is registered with Google. Please log in using Google." });
-    }
 
-    const NewUser = { email: data.email, id: data._id };
-
-    const match = await bcrypt.compare(Password, data.password);
-
-    if (match) {
-      const token = await generateToken(NewUser);
-      return res.status(200).json({ message: "Login successfully",token});
-    } else {
+    const match = await bcrypt.compare(password, data.password);
+    if (!match) {
       return res.status(403).json({ error: "Incorrect password" });
     }
 
+    const token = await generateToken(data);
+    return res.status(200).json({ message: "Login successful", token });
   } catch (err) {
-    return res.status(401).json({ error: err.message });
+    console.error(err);
+    return res.status(500).json({ error: "An error occurred during login" });
   }
-
 };
 
 

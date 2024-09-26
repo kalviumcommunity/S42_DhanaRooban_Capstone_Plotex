@@ -13,6 +13,10 @@ import AboutUs from "../Pages/AboutUs"
 function Home() {
   const [userName, setUserName] = useState('');
   const { currentUser, loading } = useContext(UserContext);
+
+
+  return (
+=======
   const navigate = useNavigate();
   useEffect(() => {
     if (currentUser && currentUser.email) {
@@ -29,6 +33,7 @@ function Home() {
     navigate('/find-space');
   };
   return (  
+
     <>
     <Center h="100vh" overflowY="auto"
     p={4} >

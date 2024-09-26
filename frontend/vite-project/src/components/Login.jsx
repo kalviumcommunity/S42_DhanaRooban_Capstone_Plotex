@@ -35,13 +35,19 @@ import showToast from "react-hot-toast";
 import axios from "axios";
 import BASE_URL from "../Config";
 import StoreCookies from 'js-cookie';
+
+import handleGoogleSignIn from "../Services/GoogleAuth"
+import { useNavigate } from "react-router-dom";
+=======
 // import handleGoogleSignIn from "../Services/GoogleAuth"
+
 function SignUpForm() {
   const [isHovered, setIsHovered] = useState(false);
   const [otp, setOtp] = useState("");
   const [showOTPInput, setShowOTPInput] = useState(false);
   const { isOpen, onClose, onOpen } = useDisclosure();
 
+  const navigate = useNavigate(); 
   const {
     register,
     handleSubmit,
@@ -49,22 +55,25 @@ function SignUpForm() {
   } = useForm();
   const toast = useToast();
 
-    const onSubmit = async (value) => {
-      try {
-        const modifiedData = {
-          Email: value.email.toUpperCase(),
-          Password: value.password.trim(),
-        };
-        const response = await axios.post(`${BASE_URL}/login`,
-          modifiedData
-        )
-        const Token = response.data.token
-        StoreCookies.set('authToken', Token, {expires:31});
-        console.log('Token stored successfully');
-      } catch (error) {
-        showToast("Error", error.message || "An error occurred", "error");
-      }
-    };
+  const onSubmit = async (values) => {
+    try {
+      const modifiedData = {
+        email: values.email,
+        password: values.password,
+      };
+      // console.log(modifiedData)
+      
+      const response = await axios.post(`${BASE_URL}/login`, modifiedData);
+      const Token = response.data.token;
+      console.log(Token);
+      StoreCookies.set('authToken', Token, { expires: 31 });
+      console.log('Token stored successfully');
+      navigate('/welcome');
+    } catch (error) {
+      console.error(error);
+      showToast("Error", error.response?.data?.message || "An error occurred", "error");
+    }
+  };
 
 
   const renderInput = (inputProps) => (
