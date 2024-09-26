@@ -38,7 +38,7 @@ import StoreCookies from 'js-cookie';
 
 import handleGoogleSignIn from "../Services/GoogleAuth"
 import { useNavigate } from "react-router-dom";
-=======
+
 // import handleGoogleSignIn from "../Services/GoogleAuth"
 
 function SignUpForm() {
