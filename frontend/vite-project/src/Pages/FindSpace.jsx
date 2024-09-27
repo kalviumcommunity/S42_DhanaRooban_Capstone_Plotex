@@ -45,6 +45,9 @@ function FindSpace() {
     vehicleType: "",
     parkingSpaceType: "",
   });
+
+
+
   const token = Cookies.get("authToken");
   const [center, setCenter] = useState({ lat: 0, lon: 0 });
   

@@ -11,9 +11,6 @@ function BasicMap({ center }) {
     iconSize: [50, 50],
   });
 
-
-
-
   return (
     <Container maxW="container.xl" p={4} display="flex" flexWrap="wrap">
       <Box
@@ -36,9 +33,6 @@ function BasicMap({ center }) {
             url="https://api.maptiler.com/maps/basic-v2/256/{z}/{x}/{y}.png?key=7tzE4L8r2YzHm0h9XLja"
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           />
-{/*            {location && location.forEach((element) => (
-            <Marker key={element.id || element.lat + element.long} position={[element.lat, element.long]} icon={MarkerIcon} />
-          ))} */}
           <Marker position={center} icon={MarkerIcon}></Marker>
           <MapController center={center} />
         </MapContainer>
