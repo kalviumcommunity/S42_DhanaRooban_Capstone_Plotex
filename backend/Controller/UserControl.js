@@ -18,10 +18,6 @@ const SignIn = async (req, res) => {
 
     const { Email, PhoneNumber, Password } = req.body;
     const hashedPassword = await hashPassword(Password);
-
-  
-    const { Email, PhoneNumber, Password } = req.body;
-    const hashedPassword = await hashPassword(Password)
     const userEmail = Email;
     let token;
     try {
