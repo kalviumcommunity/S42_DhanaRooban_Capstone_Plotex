@@ -32,8 +32,11 @@ import showToast from "react-hot-toast";
 import axios from "axios";
 import BASE_URL from "../Config";
 import StoreCookies from 'js-cookie';
-import handleGoogleSignIn from "../Services/GoogleAuth"
+
+// import handleGoogleSignIn from "../../Services/GoogleAuth"
 import { useNavigate } from "react-router-dom";
+
+
 function SignUpForm() {
   const [isHovered, setIsHovered] = useState(false);
   const [otp, setOtp] = useState("");
@@ -188,7 +191,7 @@ function SignUpForm() {
             <Text>or Login in using</Text>
 
             <Flex justifyContent="space-between" width="40%" mt="5">
-              <Button size="sm" w="45px" h="50px" onClick={handleGoogleSignIn}>
+              <Button size="sm" w="45px" h="50px">
                 <img src={Google} alt="" />
               </Button>
               <Button size="sm" w="45px" h="50px">

@@ -1,6 +1,8 @@
+
 const jwt = require("jsonwebtoken");
 
 const generateToken = async (NewUser) => {
+ 
   try {
     let token = await jwt.sign(
       {
@@ -17,4 +19,3 @@ const generateToken = async (NewUser) => {
 };
 
 module.exports = { generateToken };
-

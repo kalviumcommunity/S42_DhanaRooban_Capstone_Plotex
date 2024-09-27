@@ -4,8 +4,7 @@ import Navbar from "../components/Navbar";
 
 
 function Welcome() {
-  
-
+  // const { currentUser, loading } = useContext(UserContext);
   const titleFontSize = useBreakpointValue({ base: "lg", md: "xl" });
   const subtitleFontSize = useBreakpointValue({ base: "md", md: "lg" });
   const bodyFontSize = useBreakpointValue({ base: "sm", md: "md" });
