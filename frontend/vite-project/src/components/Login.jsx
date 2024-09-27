@@ -65,7 +65,7 @@ function SignUpForm() {
       console.log(Token);
       StoreCookies.set('authToken', Token, { expires: 31 });
       console.log('Token stored successfully');
-      navigate('/welcome');
+      navigate('/find-space');
     } catch (error) {
       console.error(error);
       showToast("Error", error.response?.data?.message || "An error occurred", "error");
