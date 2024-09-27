@@ -8,7 +8,7 @@ const { generateToken } = require("../Middleware/Authentication.js");
 
 const Check = (req, res) => {
   console.log("<h1>hELLO world</h1>");
-  res.json({ hello: hello });
+  res.json({ hello: "hello" });
 };
 
 
