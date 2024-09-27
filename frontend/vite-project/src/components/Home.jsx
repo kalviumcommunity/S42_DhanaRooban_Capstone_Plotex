@@ -13,7 +13,7 @@ import AboutUs from "../Pages/AboutUs";
 
 function Home() {
   const [userName, setUserName] = useState('');
-  const { currentUser, loading } = useContext(UserContext);
+  // const { currentUser, loading } = useContext(UserContext);
 
   useEffect(() => {
     if (currentUser && currentUser.email) {

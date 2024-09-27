@@ -1,11 +1,10 @@
 import React, { useContext } from "react";
 import { Box, Flex, Text, VStack, HStack, useBreakpointValue } from "@chakra-ui/react";
 import Navbar from "../components/Navbar";
-import UserContext from "../Atoms/UserContext";
+
 
 function Welcome() {
   // const { currentUser, loading } = useContext(UserContext);
-
   const titleFontSize = useBreakpointValue({ base: "lg", md: "xl" });
   const subtitleFontSize = useBreakpointValue({ base: "md", md: "lg" });
   const bodyFontSize = useBreakpointValue({ base: "sm", md: "md" });

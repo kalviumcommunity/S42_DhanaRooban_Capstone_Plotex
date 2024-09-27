@@ -26,7 +26,6 @@ import Microsoft from "../assets/Images/SignPage/microsoft.png";
 import Apple from "../assets/Images/SignPage/apple.png";
 
 
-
 import "react-phone-number-input/style.css";
 import toast, { Toaster } from "react-hot-toast";
 import showToast from "react-hot-toast";
@@ -58,7 +57,7 @@ function SignUpForm() {
         email: values.email,
         password: values.password,
       };
-      // console.log(modifiedData)
+      
       
       const response = await axios.post(`${BASE_URL}/login`, modifiedData);
       const Token = response.data.token;
