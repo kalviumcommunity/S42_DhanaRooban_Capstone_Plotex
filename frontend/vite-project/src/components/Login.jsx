@@ -25,9 +25,6 @@ import Google from "../assets/Images/SignPage/Google.png";
 import Microsoft from "../assets/Images/SignPage/microsoft.png";
 import Apple from "../assets/Images/SignPage/apple.png";
 
-import { auth } from "../Services/firebaseAuth";
-import { GoogleAuthProvider } from "firebase/auth";
-import { signInWithPopup } from "firebase/auth";
 
 import "react-phone-number-input/style.css";
 import toast, { Toaster } from "react-hot-toast";
@@ -57,14 +54,14 @@ function SignUpForm() {
         email: values.email,
         password: values.password,
       };
-      // console.log(modifiedData)
+      
       
       const response = await axios.post(`${BASE_URL}/login`, modifiedData);
       const Token = response.data.token;
       console.log(Token);
       StoreCookies.set('authToken', Token, { expires: 31 });
       console.log('Token stored successfully');
-      navigate('/welcome');
+      navigate('/find-space');
     } catch (error) {
       console.error(error);
       showToast("Error", error.response?.data?.message || "An error occurred", "error");
