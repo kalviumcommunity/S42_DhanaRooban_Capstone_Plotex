@@ -56,7 +56,8 @@ function SignUpForm() {
   const onSubmit = async (value) => {
     try {
       const modifiedData = {
-        Email: value.email.toUpperCase(),
+        Username : value.Username.toLowerCase(),
+        Email: value.email.toLowerCase(),
         PhoneNumber: value.phoneNumber.replace(/\D/g, ""),
         Password: value.password.trim(),
       };
@@ -231,6 +232,23 @@ function SignUpForm() {
         <Toaster toastOptions={{ duration: 4000 }} />
         <Stack mt="100" className="regular" mb={4}>
           <form onSubmit={handleSubmit(onSubmit)}>
+
+          <label>Username</label>
+            <Input
+              mb={4}
+              borderRadius="2"
+              borderWidth="2"
+              size="md"
+              className="form-control"
+              type="text"
+              name="Username"
+              placeholder="Username"
+              {...register("Username", {
+                required: "Username is required",
+              })}
+            />
+            {errors.Username && <Text color="red">{errors.Username.message}</Text>}
+
             <label>Email</label>
             <Input
               mb={4}
@@ -246,6 +264,8 @@ function SignUpForm() {
               })}
             />
             {errors.email && <Text color="red">{errors.email.message}</Text>}
+
+            
 
             <label>Password</label>
             <Input

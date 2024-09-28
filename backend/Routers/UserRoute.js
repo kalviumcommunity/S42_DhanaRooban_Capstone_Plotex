@@ -5,6 +5,9 @@ const { Check,SignIn, getUserProfile, updateUser,LogIn, GoogleAuthentication} = 
 
 
 router.put('/UpdateUser',updateUser);
+
+router.post('/sign',SignIn)
+
 router.post('/singin',SignIn)
 router.get("/profile/:token",authenticateToken,getUserProfile);
 

@@ -4,9 +4,6 @@ import Navbar from "../components/Navbar";
 
 function AboutUs({ content }) {
  
-  if (!content) {
-    return <div>Loading...</div>;
-  }
   const titleFontSize = useBreakpointValue({ base: "lg", md: "xl" });
   return (
     <>
@@ -32,9 +29,10 @@ function AboutUs({ content }) {
           >
           <VStack spacing={4}>
             <Text fontSize={titleFontSize} fontWeight="bold">
-              {content.title}
+            About Us
             </Text>
-            <Text>{content.body}</Text>
+            <Text>Welcome to Plotex, where parking is made simple, convenient, and communal.Our journey began with a simple goal: to revolutionize the parking experience.We understand the hassle of finding parking in a bustling city or during busy events, as well as the challenge of listing unused parking spaces.That's why we created Plotex – to connect parking providers with users, making parking effortless for everyone.At Plotex, our mission is straightforward: to make parking easier, safer, and more rewarding for you. Whether you're renting out your parking space or searching for an affordable spot, we've got you covered. Our aim is to streamline your parking experience, allowing you to focus on what matters most to you."
+            </Text>
           </VStack>
         </Box>
       </Box>

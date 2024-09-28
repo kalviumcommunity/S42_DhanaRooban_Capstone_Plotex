@@ -8,17 +8,30 @@ const { generateToken } = require("../Middleware/Authentication.js");
 
 const Check = (req, res) => {
   console.log("<h1>hELLO world</h1>");
-  res.json({ hello: hello });
+  res.json({ hello: "hello" });
 };
 
-
+// const deleteAccount = async (req, res) => {
+//   try {
+//     const userId = req.params.userId;
+//     const user = await UserDataModel.findById(userId);
+//     if (!user) {
+//       return res.status(404).json({ message: "User not found" });
+//     }
+//     await Promise.all([user.remove(),]);
+//     res.json({ message: "Account deleted successfully" });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ message: "Error deleting account" });
+//   }
+// };
 
 const SignIn = async (req, res) => {
   try {
-  
     const { Email, PhoneNumber, Password } = req.body;
     console.log(Email)
     const hashedPassword = await hashPassword(Password)
+
     const userEmail = Email;
     let token;
     try {
@@ -45,35 +58,30 @@ const SignIn = async (req, res) => {
   }
 };
 
+
 const LogIn = async (req, res) => {
-  const { Email, Password , GoogleUserData} = req.body;
+  let  { email, password}  = req.body;
 
   try {
-    const data = await UserDataModel.findOne({$or:[{ email: Email },{email :GoogleUserData.email}]});
+    email = email.toLowerCase();
+    const data = await UserDataModel.findOne({ email });
     if (!data) {
       return res.status(401).json({ error: "Cannot find your account" });
     }
- 
-    if (GoogleUserData.email === data.email) {
-      return res.status(400).json({ error: "This account is registered with Google. Please log in using Google." });
-    }
 
-    const NewUser = { email: data.email, id: data._id };
-
-    const match = await bcrypt.compare(Password, data.password);
-
-    if (match) {
-      const token = await generateToken(NewUser);
-      return res.status(200).json({ message: "Login successfully",token});
-    } else {
+    const match = await bcrypt.compare(password, data.password);
+    if (!match) {
       return res.status(403).json({ error: "Incorrect password" });
     }
 
+    const token = await generateToken(data);
+    return res.status(200).json({ message: "Login successful", token });
   } catch (err) {
-    return res.status(401).json({ error: err.message });
+    console.error(err);
+    return res.status(500).json({ error: "An error occurred during login" });
   }
-
 };
+
 
 
 const getUserProfile = async (req, res) => {
@@ -90,6 +98,8 @@ const getUserProfile = async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
+
+
 
 const updateUser = async (req, res) => {
   try {

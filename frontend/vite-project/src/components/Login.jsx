@@ -25,9 +25,6 @@ import Google from "../assets/Images/SignPage/Google.png";
 import Microsoft from "../assets/Images/SignPage/microsoft.png";
 import Apple from "../assets/Images/SignPage/apple.png";
 
-import { auth } from "../Services/firebaseAuth";
-import { GoogleAuthProvider } from "firebase/auth";
-import { signInWithPopup } from "firebase/auth";
 
 import "react-phone-number-input/style.css";
 import toast, { Toaster } from "react-hot-toast";
@@ -35,13 +32,18 @@ import showToast from "react-hot-toast";
 import axios from "axios";
 import BASE_URL from "../Config";
 import StoreCookies from 'js-cookie';
-// import handleGoogleSignIn from "../Services/GoogleAuth"
+
+// import handleGoogleSignIn from "../../Services/GoogleAuth"
+import { useNavigate } from "react-router-dom";
+
+
 function SignUpForm() {
   const [isHovered, setIsHovered] = useState(false);
   const [otp, setOtp] = useState("");
   const [showOTPInput, setShowOTPInput] = useState(false);
   const { isOpen, onClose, onOpen } = useDisclosure();
 
+  const navigate = useNavigate(); 
   const {
     register,
     handleSubmit,
@@ -49,22 +51,25 @@ function SignUpForm() {
   } = useForm();
   const toast = useToast();
 
-    const onSubmit = async (value) => {
-      try {
-        const modifiedData = {
-          Email: value.email.toUpperCase(),
-          Password: value.password.trim(),
-        };
-        const response = await axios.post(`${BASE_URL}/login`,
-          modifiedData
-        )
-        const Token = response.data.token
-        StoreCookies.set('authToken', Token, {expires:31});
-        console.log('Token stored successfully');
-      } catch (error) {
-        showToast("Error", error.message || "An error occurred", "error");
-      }
-    };
+  const onSubmit = async (values) => {
+    try {
+      let modifiedData = {
+        userIdentifier: values.userIdentifier,
+        password: values.password,
+      };
+      
+      
+      const response = await axios.post(`${BASE_URL}/login`, modifiedData);
+      const Token = response.data.token;
+      console.log(Token);
+      StoreCookies.set('authToken', Token, { expires: 31 });
+      console.log('Token stored successfully');
+      navigate('/find-space');
+    } catch (error) {
+      console.error(error);
+      showToast("Error", error.response?.data?.message || "An error occurred", "error");
+    }
+  };
 
 
   const renderInput = (inputProps) => (
@@ -101,10 +106,9 @@ function SignUpForm() {
           className="regular"
            mb={4}
         >
-          <form
-            onSubmit={handleSubmit(onSubmit)}
-          >
-            <label>Email</label>
+          <form onSubmit={handleSubmit(onSubmit)}>
+          
+            <label>Username</label>
             <Input
               mb={4}
               borderRadius="2"
@@ -112,14 +116,15 @@ function SignUpForm() {
               size="md"
               className="form-control"
               type="text"
-              name="email"
-              placeholder="Email*"
-              {...register("email", {
-                required: "Email is required",
+              name="Username"
+              placeholder="Username"
+              {...register("Username", {
+                required: "Username or Email is required",
               })}
             />
-            {errors.email && <Text color="red">{errors.email.message}</Text>}
+            {errors.Username && <Text color="red">{errors.Username.message}</Text>}
 
+          
             <label>Password</label>
             <Input
                mb={4}
@@ -186,7 +191,7 @@ function SignUpForm() {
             <Text>or Login in using</Text>
 
             <Flex justifyContent="space-between" width="40%" mt="5">
-              <Button size="sm" w="45px" h="50px" onClick={handleGoogleSignIn}>
+              <Button size="sm" w="45px" h="50px">
                 <img src={Google} alt="" />
               </Button>
               <Button size="sm" w="45px" h="50px">
