@@ -15,16 +15,16 @@ function Home() {
   const [userName, setUserName] = useState('');
   // const { currentUser, loading } = useContext(UserContext);
 
-  useEffect(() => {
-    if (currentUser && currentUser.email) {
-      const firstFourLetters = currentUser.email.substring(0, 5).toLowerCase();
-      setUserName(firstFourLetters);
-    }
-  }, [currentUser]);
+  // useEffect(() => {
+  //   if (currentUser && currentUser.email) {
+  //     const firstFourLetters = currentUser.email.substring(0, 5).toLowerCase();
+  //     setUserName(firstFourLetters);
+  //   }
+  // }, [currentUser]);
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+  // if (loading) {
+  //   return <div>Loading...</div>;
+  // }
 
   const handleAccessHome = () => {
     navigate('/find-space');
@@ -35,7 +35,7 @@ function Home() {
       <Center h="100vh" overflowY="auto" p={4}>
         <VStack spacing={4}>
           <Text className="Bold" fontSize="2xl">
-            Welcome {userName || 'Guest!'}
+            Welcome {'Guest!'}
           </Text>
           <Button
             onClick={handleAccessHome}

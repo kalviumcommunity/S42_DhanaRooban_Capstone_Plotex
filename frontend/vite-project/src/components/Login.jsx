@@ -53,8 +53,8 @@ function SignUpForm() {
 
   const onSubmit = async (values) => {
     try {
-      const modifiedData = {
-        email: values.email,
+      let modifiedData = {
+        userIdentifier: values.userIdentifier,
         password: values.password,
       };
       
@@ -106,10 +106,9 @@ function SignUpForm() {
           className="regular"
            mb={4}
         >
-          <form
-            onSubmit={handleSubmit(onSubmit)}
-          >
-            <label>Email</label>
+          <form onSubmit={handleSubmit(onSubmit)}>
+          
+            <label>Username</label>
             <Input
               mb={4}
               borderRadius="2"
@@ -117,14 +116,15 @@ function SignUpForm() {
               size="md"
               className="form-control"
               type="text"
-              name="email"
-              placeholder="Email*"
-              {...register("email", {
-                required: "Email is required",
+              name="Username"
+              placeholder="Username"
+              {...register("Username", {
+                required: "Username or Email is required",
               })}
             />
-            {errors.email && <Text color="red">{errors.email.message}</Text>}
+            {errors.Username && <Text color="red">{errors.Username.message}</Text>}
 
+          
             <label>Password</label>
             <Input
                mb={4}
