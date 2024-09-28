@@ -11,12 +11,26 @@ const Check = (req, res) => {
   res.json({ hello: "hello" });
 };
 
-
+// const deleteAccount = async (req, res) => {
+//   try {
+//     const userId = req.params.userId;
+//     const user = await UserDataModel.findById(userId);
+//     if (!user) {
+//       return res.status(404).json({ message: "User not found" });
+//     }
+//     await Promise.all([user.remove(),]);
+//     res.json({ message: "Account deleted successfully" });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ message: "Error deleting account" });
+//   }
+// };
 
 const SignIn = async (req, res) => {
   try {
 
-    const { Email, PhoneNumber, Password } = req.body;
+    const { Username, Email, PhoneNumber, Password } = req.body;
+   
     const hashedPassword = await hashPassword(Password);
     const userEmail = Email;
     let token;
@@ -45,22 +59,28 @@ const SignIn = async (req, res) => {
 };
 
 const LogIn = async (req, res) => {
-  let  { email, password}  = req.body;
-//   console.log(modifiedData)
-//  console.log(modifiedData.email)
+  let { userIdentifier, password } = req.body;
+
   try {
-    email = email.toLowerCase();
-    const data = await UserDataModel.findOne({ email });
-    if (!data) {
+    const isEmail = userIdentifier.includes('@');
+    if (isEmail) {
+      userIdentifier = userIdentifier.toLowerCase();
+    }
+
+   
+    const query = isEmail ? { email: userIdentifier } : { Username: userIdentifier };
+    const user = await UserDataModel.findOne(query);
+
+    if (!user) {
       return res.status(401).json({ error: "Cannot find your account" });
     }
 
-    const match = await bcrypt.compare(password, data.password);
+    const match = await bcrypt.compare(password, user.password);
     if (!match) {
       return res.status(403).json({ error: "Incorrect password" });
     }
 
-    const token = await generateToken(data);
+    const token = await generateToken(user);
     return res.status(200).json({ message: "Login successful", token });
   } catch (err) {
     console.error(err);
@@ -69,20 +89,6 @@ const LogIn = async (req, res) => {
 };
 
 
-const getUserProfile = async (req, res) => {
-  try {
-
-    if (!req.TokenData) {
-      return res.status(401).json({ message: "Authentication required.Please log in" });
-    }
-    var data = req.TokenData;
-    const FilterData = await UserDataModel.findOne({email: data.email});
-    res.json({FilterData});
-
-  } catch (error) {
-    res.status(500).json({ message: "Internal Server Error" });
-  }
-};
 
 const updateUser = async (req, res) => {
   try {
