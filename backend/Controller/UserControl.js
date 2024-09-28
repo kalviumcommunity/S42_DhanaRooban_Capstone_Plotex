@@ -84,8 +84,8 @@ const getUserProfile = async (req, res) => {
     }
     var data = req.TokenData;
     const FilterData = await UserDataModel.findOne({email: data.email});
+    
     res.json({FilterData});
-
   } catch (error) {
     res.status(500).json({ message: "Internal Server Error" });
   }
