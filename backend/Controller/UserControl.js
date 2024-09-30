@@ -11,6 +11,62 @@ const Check = (req, res) => {
   res.json({ hello: "hello" });
 };
 
+const SignIn = async (req, res) => {
+  try {
+
+    const { Username, PhoneNumber, Password } = req.body;
+   
+    const hashedPassword = await hashPassword(Password);
+    const UserName = Username;
+    let token;
+    try {
+      const existingUser = await UserDataModel.findOne({ name: UserName });
+      if (existingUser) {
+
+        return res.status(400).json({ error: "User already exists" });
+      }
+      const newUser = new UserDataModel({
+        name: UserName,
+        phoneNumber: PhoneNumber,
+        password: hashedPassword,
+      });
+      await newUser.save();
+      const token = await generateToken(newUser);
+      res.status(200).json({ message: "Successfully signed in", token });
+    } catch (error) {
+      console.error("Error saving new user:", error); 
+      return res.status(500).json({ message: "An error occurred during token generation" });
+    }
+
+  } catch (error) {
+    console.error("Error during sign-in:", error); 
+    res.status(500).json({ message: "An error occurred during sign-in" });
+  }
+};
+
+const LogIn = async (req, res) => {
+  let { Username,password} = req.body;
+  try {
+   
+    const user = await UserDataModel.findOne({ name: Username.toLowerCase() });
+
+    if (!user) {
+      return res.status(401).json({ error: "No username is found" });
+    }
+
+    const match = await bcrypt.compare(password, user.password);
+
+    if (!match) {
+      return res.status(403).json({ error: "Incorrect password" });
+    }
+
+    const token = await generateToken(user);
+    res.status(200).json({ message: "Login successful", token });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ error: "An error occurred during login" });
+  }
+};
 
 
 const updateUser = async (req, res) => {
