@@ -23,7 +23,11 @@ Description
 When searching for parking near an emergency situation or a crowded place, finding a spot can be time-consuming and stressful. Plotex helps you park your vehicle safely, and as a landlord, you can earn more than just rental income. You can search from anywhere and find a nearby spot in less time. Plus, it offers many cool features to assist you.
 
 Key Features
+
+Frontend Deployed link - https://plotex.onrender.com/
+
 Backend Deployed link -  https://plotex-1.onrender.com
+
 check with https://plotex-1.onrender.com/check
 
 
