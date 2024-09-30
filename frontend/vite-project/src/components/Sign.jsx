@@ -56,31 +56,34 @@ function SignUpForm() {
   const onSubmit = async (value) => {
     try {
       const modifiedData = {
-        Username : value.Username.toLowerCase(),
-        Email: value.email.toLowerCase(),
+        Username: value.Username.toLowerCase(),
         PhoneNumber: value.phoneNumber.replace(/\D/g, ""),
         Password: value.password.trim(),
       };
-
       const response = await axios.post(
         `${BASE_URL}/singin`,
         modifiedData,
       );
-
       const Token = response.data.token;
       StoreCookies.set("authToken", Token, { expires: 7 });
+      toast({
+        title: "Success",
+        description: response.data.message,
+        status: "success",
+        duration: 4000,
+        isClosable: true,
+      });
       navigate('/find-space');
     } catch (error) {
       toast({
         title: "Error",
-        description: error.message || "An error occurred",
+        description: error.response?.data?.error || "An error occurred",
         status: "error",
         duration: 4000,
         isClosable: true,
       });
     }
   };
-
   
 
   const renderInput = (inputProps) => (
@@ -249,23 +252,7 @@ function SignUpForm() {
             />
             {errors.Username && <Text color="red">{errors.Username.message}</Text>}
 
-            <label>Email</label>
-            <Input
-              mb={4}
-              borderRadius="2"
-              borderWidth="2"
-              size="md"
-              className="form-control"
-              type="text"
-              name="email"
-              placeholder="Email*"
-              {...register("email", {
-                required: "Email is required",
-              })}
-            />
-            {errors.email && <Text color="red">{errors.email.message}</Text>}
-
-            
+          
 
             <label>Password</label>
             <Input
@@ -303,6 +290,7 @@ function SignUpForm() {
             {errors.phoneNumber && (
               <Text color="red">{errors.phoneNumber.message}</Text>
             )}
+
             <Checkbox mt={4} mb={4}>
               I agree to the <Link color="blue">Terms and Conditions</Link>
             </Checkbox>

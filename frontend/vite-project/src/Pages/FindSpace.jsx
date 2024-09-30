@@ -37,9 +37,9 @@ import Cookies from "js-cookie";
 function FindSpace() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [loading, setLoading] = useState(false);
-  const [ipData, setIpData] = useState("");
-  const { ipDetails, fetchIpDetails } = useGetIp();
   const [error, setError] = useState("");
+
+  
   const [formValues, setFormValues] = useState({
     location: "",
     vehicleType: "",

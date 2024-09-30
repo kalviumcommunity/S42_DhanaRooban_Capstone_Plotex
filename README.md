@@ -5,16 +5,6 @@
 
 ## Introduction
 Worry about parking? Don’t worry, we've got you covered! Plotex, an online platform, brings all parking spaces to one place, allowing you to earn by renting out your space.
-<!-- var const 
-higer order function
-useffect,hooks
-Redux
-Good moring 
-Add animation gif
-Ai use pannanum
-booking 
-git collaboration
-Some backend logical -->
 
 
 ## Description

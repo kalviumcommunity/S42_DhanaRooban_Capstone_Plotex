@@ -24,7 +24,7 @@ import { NavLink } from "react-router-dom";
 import Google from "../assets/Images/SignPage/Google.png";
 import Microsoft from "../assets/Images/SignPage/microsoft.png";
 import Apple from "../assets/Images/SignPage/apple.png";
-
+// import nearlocation from "../Atoms/l"
 
 import "react-phone-number-input/style.css";
 import toast, { Toaster } from "react-hot-toast";
@@ -51,23 +51,34 @@ function SignUpForm() {
   } = useForm();
   const toast = useToast();
 
+  // console.log(nearlocation)
+
   const onSubmit = async (values) => {
     try {
       let modifiedData = {
-        userIdentifier: values.userIdentifier,
+        Username: values.Username,
         password: values.password,
       };
-      
-      
+
       const response = await axios.post(`${BASE_URL}/login`, modifiedData);
       const Token = response.data.token;
-      console.log(Token);
       StoreCookies.set('authToken', Token, { expires: 31 });
-      console.log('Token stored successfully');
-      navigate('/find-space');
+      toast({
+        title: "Success",
+        description: response.data.message,
+        status: "success",
+        duration: 4000,
+        isClosable: true,
+      });
+      navigate('/home');
     } catch (error) {
-      console.error(error);
-      showToast("Error", error.response?.data?.message || "An error occurred", "error");
+      toast({
+        title: "Error",
+        description: error.response?.data?.error || "An error occurred",
+        status: "error",
+        duration: 4000,
+        isClosable: true,
+      });
     }
   };
 
@@ -75,7 +86,7 @@ function SignUpForm() {
   const renderInput = (inputProps) => (
     <input
       {...inputProps}
-      style={{ width: "40px", height: "40px", margin: "8px" }}
+      style={{ width: "40px", heikerght: "40px", margin: "8px" }}
     />
   );
 
