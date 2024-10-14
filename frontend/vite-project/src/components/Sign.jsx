@@ -26,7 +26,7 @@ import Google from "../assets/Images/SignPage/Google.png";
 import Microsoft from "../assets/Images/SignPage/microsoft.png";
 import Apple from "../assets/Images/SignPage/apple.png";
 
-import { signInWithPhoneNumber, RecaptchaVerifier } from "firebase/auth";
+import { GoogleAuthProvider,signInWithPhoneNumber, RecaptchaVerifier } from "firebase/auth";
 import { auth } from "../Services/firebaseAuth";
 
 import OtpInput from "react-otp-input";
