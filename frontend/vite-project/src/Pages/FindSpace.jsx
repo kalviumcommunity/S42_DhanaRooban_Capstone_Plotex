@@ -32,7 +32,7 @@ import Cookies from "js-cookie";
 import toast from "react-hot-toast"; 
 
 function FindSpace() {
-  const { isOpen, onOpen, onClose, loading, setLoading, center, address, Currentlocation, fetchIpDetails ,fetchNearbyLocations} = useGetIp(); 
+  const { isOpen, onOpen, onClose, loading, setLoading, center, address, Currentlocation, fetchIpDetails ,fetchNearbyLocations,fetchAddress,nearbyLocations} = useGetIp(); 
   const [error, setError] = useState("");
   const [formValues, setFormValues] = useState({
     location: "",
@@ -40,16 +40,17 @@ function FindSpace() {
     MobileNumber: "",
   });
   const token = Cookies.get("authToken");
-
+ 
   const handleConsent = async () => {
     try {
-      await fetchIpDetails();
-
-       Currentlocation();
+      await fetchIpDetails(); 
+      await Currentlocation(); 
+  
     } catch (error) {
-      console.error('Error handling consent:', error);
+        console.error('Error handling consent:', error);
     }
-  };
+};
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -74,6 +75,14 @@ function FindSpace() {
     }
   };
 
+
+  
+  console.log()
+  const handleAddressChange = (e) => {
+    setAddress(e.target.value);
+  };
+
+
   const handleChange = (name) => (value) => {
     setFormValues((prevValues) => ({
       ...prevValues,
@@ -85,7 +94,7 @@ function FindSpace() {
   return (
     <>
       <Navbar />
-      {center.lat !== undefined && center.lon !== undefined && <BasicMap center={center} />}
+      {center.lat !== undefined && center.lon !== undefined && <BasicMap center={center} address={address}  nearbyLocations={nearbyLocations}/>}
       <Container
         overflowY="auto"
         p={4}
@@ -93,6 +102,7 @@ function FindSpace() {
         margin="200"
         ml={{ base: "2", md: "30" }}
       >
+        
         <Box>
           <form onSubmit={handleSubmit}>
             <FormControl>
@@ -103,6 +113,7 @@ function FindSpace() {
                     placeholder="Enter your address"
                     name="location"
                     value={address} 
+                    onChange={handleAddressChange} 
                   />
                   <InputLeftElement>
                     <Button onClick={onOpen} variant="ghost" size="sm">

@@ -1,59 +1,92 @@
-import React, { useEffect, useState } from "react";
-import { Box, Container } from "@chakra-ui/react";
-import { MapContainer, TileLayer, Marker, useMap } from "react-leaflet";
+import React, { useEffect } from "react";
+import { Box } from "@chakra-ui/react";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from 'leaflet';
-import axios from 'axios';
 import locationIcon from "../assets/Images/SignPage/locationIcon.png";
 
-function BasicMap({ center }) {
+// Fix for the default icon issue in react-leaflet
+delete L.Icon.Default.prototype._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: import('leaflet/dist/images/marker-icon-2x.png'),
+  iconUrl: import('leaflet/dist/images/marker-icon.png'),
+  shadowUrl: import('leaflet/dist/images/marker-shadow.png'),
+});
 
+function BasicMap({ center, address, nearbyLocations }) {
   const MarkerIcon = new L.Icon({
     iconUrl: locationIcon,
     iconSize: [50, 50],
   });
 
-  
+  const parkingIcon = new L.Icon({
+    iconUrl: locationIcon,  
+    iconSize: [32, 32],
+  });
+
+ 
+  const defaultCenter = { lat: 0, lon: 0 };
+  const mapCenter = (center && center.lat && center.lon) 
+    ? [center.lat, center.lon] 
+    : [defaultCenter.lat, defaultCenter.lon];
+
+  useEffect(() => {
+    // Log the coordinates of nearbyLocations
+    nearbyLocations.forEach((location, index) => {
+      if (location.location && location.location.coordinates) {
+        const [lon, lat] = location.location.coordinates;
+        console.log(`Location ${index}: Latitude: ${lat}, Longitude: ${lon}`);
+      }
+    });
+  }, [nearbyLocations]);
 
   return (
-    <Container maxW="container.xl" p={4} display="flex" flexWrap="wrap">
-      <Box
-        h={{ base: "300px", md: "400px", lg: "500px" }}
-        w="50%"
-        ml="40%"
-        mt="10%"
-        position="absolute"
+    <Box
+      h={{ base: "300px", md: "400px", lg: "500px" }}
+      w="100%"
+      position="relative"
+    >
+      <MapContainer
+        center={mapCenter}
+        zoom={13}
+        style={{
+          height: "100%",
+          width: "100%",
+          borderRadius: "10px",
+        }}
       >
-        <MapContainer
-          center={center}
-          zoom={13}
-          style={{
-            borderRadius: "10px",
-            height: "100%",
-            width: "100%",
-          }}
-        >
-          <TileLayer
-            url="https://api.maptiler.com/maps/basic-v2/256/{z}/{x}/{y}.png?key=7tzE4L8r2YzHm0h9XLja"
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          />
-         
-          <Marker position={center} icon={MarkerIcon}></Marker>
-          
-          <MapController center={center} />
-        </MapContainer>
-      </Box>
-    </Container>
+        <TileLayer
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        />
+        
+        <Marker position={mapCenter} icon={MarkerIcon}>
+          <Popup>
+            {address ? address : "Your location"}
+          </Popup>
+        </Marker>
+
+        {nearbyLocations.map((location, index) => {
+          if (location.location && location.location.coordinates) {
+            const [lon, lat] = location.location.coordinates;
+            return (
+              <Marker 
+                key={index} 
+                position={[lat, lon]} 
+                icon={parkingIcon}
+              >
+                <Popup>
+                  {location.email}<br />
+                  {location.RentalUserDetails.location}
+                </Popup>
+              </Marker>
+            );
+          }
+          return null;
+        })}
+      </MapContainer>
+    </Box>
   );
-}
-
-function MapController({ center }) {
-  const map = useMap();
-  useEffect(() => {
-    map.flyTo(center, map.getZoom());
-  }, [center, map]);
-
-  return null;
 }
 
 export default BasicMap;

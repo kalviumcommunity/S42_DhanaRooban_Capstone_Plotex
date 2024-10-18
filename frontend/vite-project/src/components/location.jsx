@@ -66,18 +66,17 @@ export const useGetIp = () => {
     }
   };
 
-
   const fetchNearbyLocations = async () => {
-    
-      try {
-        const response = await axios.post(`${BASE_URL}/nearby`, {
-          lat: center.lat,
-          lon: center.lon,
-        });
-        console.log(response)
-      if (response.status === 200 && response.data.length > 0) {
-        setNearbyLocations(response.data);
-        toast.success(`Found ${response.data.length} nearby locations.`);
+    try {
+      setLoading(true);
+      const response = await axios.post(`${BASE_URL}/nearby`, {
+        lat: center.lat,
+        lon: center.lon,
+      });
+     
+      if (response.status === 200 && response.data.nearbyLocations.length > 0) {
+        setNearbyLocations(response.data.nearbyLocations);
+        toast.success(`Found ${response.data.nearbyLocations.length} nearby locations.`);
       } else {
         setNearbyLocations([]);
         toast.error('No nearby locations found.');
@@ -90,6 +89,9 @@ export const useGetIp = () => {
     }
   };
 
+  useEffect(() => {
+    console.log('Updated nearbyLocations:', nearbyLocations);
+  }, [nearbyLocations]);
 
 
 
@@ -101,6 +103,7 @@ export const useGetIp = () => {
     Currentlocation,
     center,
     address,
+    nearbyLocations,
     locationFetched,
     loading,
     setLoading,

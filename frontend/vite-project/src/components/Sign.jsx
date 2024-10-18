@@ -204,7 +204,6 @@ function SignUpForm() {
         { GoogleUserData },
       );
       console.log('Response from server:', response);
-
       navigate('/home');
     } catch (error) {
       console.error("Error signing in with Google:", error);
