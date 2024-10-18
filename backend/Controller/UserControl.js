@@ -48,7 +48,7 @@ const LogIn = async (req, res) => {
   let { Username,password} = req.body;
   try {
    
-    const user = await UserDataModel.findOne({ name: Username.toLowerCase() });
+    const user = await UserDataModel.findOne({ name: Username.toLowerCase()});
 
     if (!user) {
       return res.status(401).json({ error: "No username is found" });

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import PhoneInput from "react-phone-number-input";
 import {
   Input,
   Button,
@@ -16,7 +17,6 @@ import {
   AlertDialogContent,
   AlertDialogOverlay,
   AlertDialogCloseButton,
-  useDisclosure,
   Spinner,
   Text,
   FormLabel,
@@ -32,19 +32,19 @@ import Cookies from "js-cookie";
 import toast from "react-hot-toast"; 
 
 function FindSpace() {
-  const { isOpen, onOpen, onClose, loading, setLoading, center, address, Currentlocation,fetchIpDetails } = useGetIp(); 
+  const { isOpen, onOpen, onClose, loading, setLoading, center, address, Currentlocation, fetchIpDetails ,fetchNearbyLocations} = useGetIp(); 
   const [error, setError] = useState("");
   const [formValues, setFormValues] = useState({
     location: "",
     vehicleType: "",
-    parkingSpaceType: "",
+    MobileNumber: "",
   });
   const token = Cookies.get("authToken");
 
-  
   const handleConsent = async () => {
     try {
       await fetchIpDetails();
+
        Currentlocation();
     } catch (error) {
       console.error('Error handling consent:', error);
@@ -57,7 +57,7 @@ function FindSpace() {
     try {
       const response = await axios.post(
         `${BASE_URL}/profile/FindSpace/token`,
-        { ...formValues, location: address }, 
+        { ...formValues, location: address ,Currentlocation:center }, 
         {
           params: {
             token: token,
@@ -65,6 +65,7 @@ function FindSpace() {
         }
       );
       toast.success("Data submitted successfully!");
+      await fetchNearbyLocations(); 
     } catch (error) {
       console.error(error);
       setError("An error occurred while submitting the form.");
@@ -73,7 +74,6 @@ function FindSpace() {
     }
   };
 
-  
   const handleChange = (name) => (value) => {
     setFormValues((prevValues) => ({
       ...prevValues,
@@ -81,6 +81,7 @@ function FindSpace() {
     }));
   };
   const cancelRef = React.useRef();
+
   return (
     <>
       <Navbar />
@@ -123,21 +124,17 @@ function FindSpace() {
                     <option value="other">Others</option>
                   </Select>
                 </Box>
-                <Box>
-                  <FormLabel>Parking Space Type</FormLabel>
-                  <Select
-                    placeholder="Select parking space type"
-                    name="parkingSpaceType"
-                    value={formValues.parkingSpaceType}
-                    onChange={(e) => handleChange("parkingSpaceType")(e.target.value)}
-                  >
-                    <option value="indoor">Indoor Parking</option>
-                    <option value="outdoor">Outdoor Parking</option>
-                    <option value="garage">Garage Parking</option>
-                    <option value="carport">Carport Parking</option>
-                    <option value="motorcycle">Motorcycle Parking</option>
-                  </Select>
-                </Box>
+                <FormControl mb={4} isInvalid={error.phoneNumber}>
+                  <FormLabel>Phone Number</FormLabel>
+                  <PhoneInput
+                    defaultCountry="IN"
+                    value={formValues.MobileNumber}
+                    onChange={(value) => handleChange("MobileNumber")(value)}
+                  />
+                  {error.phoneNumber && (
+                    <Text color="red.500">{error.phoneNumber.message}</Text>
+                  )}
+                </FormControl>
                 <Button type="submit" mt={4} w="full">
                   Submit
                 </Button>

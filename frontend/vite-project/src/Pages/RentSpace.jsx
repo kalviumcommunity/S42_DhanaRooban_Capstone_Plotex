@@ -14,15 +14,13 @@ import {
   
   useColorModeValue
 } from "@chakra-ui/react";
-import { useState, useEffect } from "react";
-import FindSpace from "./FindSpace"
-import AboutUs from "./AboutUs"
+import { useState,  } from "react";
+
 function RentYourSpace() {
   const [showRentForm, setShowRentForm] = useState(false);
   const bgColor = useColorModeValue("Body.bg", "Body.bg");
   const textColor = useColorModeValue("Body.text", "Body.text");
-  const buttonBgColor = useColorModeValue("Body.buttonBg", "Body.buttonBg");
-  const buttonText = useColorModeValue("Body.buttonText", "Body.buttonText");
+
 
   return (
     <>  

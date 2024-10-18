@@ -1,7 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect ,useCallback} from 'react';
 import axios from 'axios';
 import { useDisclosure } from '@chakra-ui/react';
-import toast from 'react-hot-toast';
+import { toast } from 'react-hot-toast';
+
+import BASE_URL from '../Config';
 
 export const useGetIp = () => {
   const [ipDetails, setIpDetails] = useState(null);
@@ -9,7 +11,8 @@ export const useGetIp = () => {
   const [center, setCenter] = useState({ lat: undefined, lon: undefined });
   const [locationFetched, setLocationFetched] = useState(false);
   const [loading, setLoading] = useState(false);
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [nearbyLocations, setNearbyLocations] = useState([]);
+  const { isOpen, onOpen, onClose   } = useDisclosure();
 
   const fetchIpDetails = async () => {
     try {
@@ -57,17 +60,42 @@ export const useGetIp = () => {
         `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`
       );
       setAddress(response.data.display_name);
+    
     } catch (error) {
       console.error('Error fetching address:', error);
     }
   };
 
-  
 
- 
+  const fetchNearbyLocations = async () => {
+    
+      try {
+        const response = await axios.post(`${BASE_URL}/nearby`, {
+          lat: center.lat,
+          lon: center.lon,
+        });
+        console.log(response)
+      if (response.status === 200 && response.data.length > 0) {
+        setNearbyLocations(response.data);
+        toast.success(`Found ${response.data.length} nearby locations.`);
+      } else {
+        setNearbyLocations([]);
+        toast.error('No nearby locations found.');
+      }
+    } catch (error) {
+      console.error('Error fetching nearby locations:', error);
+      toast.error('Failed to fetch nearby locations. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+
+
 
   return {
     ipDetails,
+    fetchNearbyLocations,
     fetchIpDetails,
     fetchAddress,
     Currentlocation,

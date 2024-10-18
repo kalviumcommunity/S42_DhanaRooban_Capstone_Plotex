@@ -24,7 +24,7 @@ import {
   AlertDialogContent,
   AlertDialogOverlay,
   AlertDialogCloseButton,
-  useDisclosure,
+
   useColorModeValue,
 } from "@chakra-ui/react";
 import PhoneInput from "react-phone-number-input";
@@ -98,20 +98,20 @@ function RentForm({ setShowRentForm }) {
   
 
     try {
-      // const response = await axios.post(
-      //   `${BASE_URL}/profile/RentalUserPost/token`,
-      //   { modifiedData, ipDetails,center},
-      //   { params: { token } }
-      // );
-      // if (response.status === 200 || response.status === 201) {
-      //   toast.success("Data submitted successfully!");
-      //   reset();
-      //   setActiveStep(0);
-      //   setIsLoading(false);
-      //   setShowRentForm(false);
-      // } else {
-      //   toast.error("Submission failed. Please try again.");
-      // }
+      const response = await axios.post(
+        `${BASE_URL}/profile/RentalUserPost/token`,
+        { modifiedData, ipDetails,center},
+        { params: { token } }
+      );
+      if (response.status === 200 || response.status === 201) {
+        toast.success("Data submitted successfully!");
+        reset();
+        setActiveStep(0);
+        setIsLoading(false);
+        setShowRentForm(false);
+      } else {
+        toast.error("Submission failed. Please try again.");
+      }
     } catch (error) {
       console.error("Error during submission:", error);
       toast.error("Failed to submit data.");

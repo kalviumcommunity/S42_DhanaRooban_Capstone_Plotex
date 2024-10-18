@@ -1,16 +1,19 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Container } from "@chakra-ui/react";
 import { MapContainer, TileLayer, Marker, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from 'leaflet';
+import axios from 'axios';
 import locationIcon from "../assets/Images/SignPage/locationIcon.png";
 
 function BasicMap({ center }) {
+
   const MarkerIcon = new L.Icon({
     iconUrl: locationIcon,
     iconSize: [50, 50],
   });
 
+  
 
   return (
     <Container maxW="container.xl" p={4} display="flex" flexWrap="wrap">
@@ -36,6 +39,7 @@ function BasicMap({ center }) {
           />
          
           <Marker position={center} icon={MarkerIcon}></Marker>
+          
           <MapController center={center} />
         </MapContainer>
       </Box>
