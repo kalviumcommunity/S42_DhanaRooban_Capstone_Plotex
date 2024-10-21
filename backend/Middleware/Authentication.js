@@ -5,6 +5,8 @@ const generateToken = async (NewUser) => {
  
   try {
     let token = await jwt.sign(
+      
+      
       {
         name: NewUser.name,
         id: NewUser.id
