@@ -32,12 +32,13 @@ import showToast from "react-hot-toast";
 import axios from "axios";
 import BASE_URL from "../Config";
 import StoreCookies from 'js-cookie';
+import { ServicesFunctions } from "../Services/ServicesFunctions";
 
-// import handleGoogleSignIn from "../../Services/GoogleAuth"
 import { useNavigate } from "react-router-dom";
 
 
 function SignUpForm() {
+  const { handleGoogleSignIn} = ServicesFunctions();
   const [isHovered, setIsHovered] = useState(false);
   const [otp, setOtp] = useState("");
   const [showOTPInput, setShowOTPInput] = useState(false);
@@ -51,7 +52,7 @@ function SignUpForm() {
   } = useForm();
   const toast = useToast();
 
-  // console.log(nearlocation)
+  
 
   const onSubmit = async (values) => {
     try {
@@ -83,12 +84,7 @@ function SignUpForm() {
   };
 
 
-  const renderInput = (inputProps) => (
-    <input
-      {...inputProps}
-      style={{ width: "40px", heikerght: "40px", margin: "8px" }}
-    />
-  );
+ 
 
 
   return (
@@ -202,14 +198,8 @@ function SignUpForm() {
             <Text>or Login in using</Text>
 
             <Flex justifyContent="space-between" width="40%" mt="5">
-              <Button size="sm" w="45px" h="50px">
+              <Button onClick={handleGoogleSignIn} size="sm" w="45px" h="50px">
                 <img src={Google} alt="" />
-              </Button>
-              <Button size="sm" w="45px" h="50px">
-                <img src={Microsoft} alt="" />
-              </Button>
-              <Button size="sm" w="50px" h="50px">
-                <img src={Apple} alt="" />
               </Button>
             </Flex>
           </form>

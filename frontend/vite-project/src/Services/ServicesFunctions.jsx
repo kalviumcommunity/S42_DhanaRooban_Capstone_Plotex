@@ -34,5 +34,4 @@ export const ServicesFunctions = () => {
       return {
         handleGoogleSignIn
       };
-
 }
