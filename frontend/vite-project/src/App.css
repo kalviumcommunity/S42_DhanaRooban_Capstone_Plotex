@@ -1,7 +1,6 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
 @font-face {
   font-family: 'Zoho Puvi';
   src: url('../public/fonts/Zoho-Puvi-Black.ttf') format('truetype');

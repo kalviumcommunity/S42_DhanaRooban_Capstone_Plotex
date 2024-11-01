@@ -1,74 +1,116 @@
-// Navbar.jsx
+// src/components/Navbar.jsx
 
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from 'framer-motion';
 import { useColorMode } from "@chakra-ui/react";
+import { MoonIcon, SunIcon } from '@chakra-ui/icons';
+
+const elements = [
+  { id: 'home', title: 'Home' },
+  { id: 'about', title: 'About Us' },
+  { id: 'find-space', title: 'Find Space' },
+  { id: 'rent-space', title: 'Rent Your Space' }
+];
 
 function Navbar() {
-  const { colorMode, toggleColorMode } = useColorMode();
-
   const [activeSection, setActiveSection] = useState('home');
-  const [scrollPosition, setScrollPosition] = useState(0);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { colorMode, toggleColorMode } = useColorMode();
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrollPosition(window.scrollY);
-      
-      const homeElement = document.getElementById('home');
-      const aboutElement = document.getElementById('about');
-      const findSpaceElement = document.getElementById('find-space');
-      const rentSpaceElement = document.getElementById('rent-space');
-
-      if (window.scrollY == 0 || window.scrollY < homeElement.offsetTop) {
-        setActiveSection("home");
-      } else if (window.scrollY < aboutElement.offsetTop) {
-        setActiveSection("about");
-      } else if (window.scrollY < findSpaceElement.offsetTop) {
-        setActiveSection("find-space");
-      } else if (window.scrollY < rentSpaceElement.offsetTop) {
-        setActiveSection("rent-space");
-      }
+      const scrollY = window.scrollY + 80; // Adjusted for navbar height
+      elements.forEach(({ id }, index) => {
+        const section = document.getElementById(id);
+        if (section) {
+          const { offsetTop, offsetHeight } = section;
+          if (scrollY >= offsetTop && scrollY < offsetTop + offsetHeight) {
+            setActiveSection(id);
+          }
+        }
+      });
     };
-    window.addEventListener("scroll", handleScroll);
 
+    window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [activeSection, scrollPosition]);
+  }, []);
 
   return (
-    <nav className="fixed border-4 border-red-500  w-full bg-gradient-to-b from-black to-gray-900 backdrop-blur-md z-50 border-b">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <nav className={`fixed w-full ${colorMode === 'dark' ? 'bg-gray-900' : 'bg-white'} transition-colors border-b shadow-md z-50`}>
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
+          {/* Logo */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
             className="flex items-center space-x-3"
           >
-            {/* <img
-              src={Logo} // replace with the path to your logo image
-              alt="Plotex Logo"
-              className="h-8 w-8"
-            /> */}
-            <span className="text-xl font-bold text-white">
-              Plotex
-            </span>
+            <span className={`text-xl font-bold ${colorMode === 'dark' ? 'text-white' : 'text-gray-800'}`}>Plotex</span>
           </motion.div>
 
+          {/* Desktop Navigation Links */}
           <div className="hidden md:flex items-center space-x-8">
-            <a href="#home" className={`text-sm font-medium transition-colors ${activeSection === 'home' ? 'text-blue-600' : 'text-white hover:text-blue-600'}`}>
-              Home
-            </a>
-            <a href="#about" className={`text-sm font-medium transition-colors ${activeSection === 'about' ? 'text-blue-600' : 'text-white hover:text-blue-600'}`}>
-              About Us
-            </a>
-            <a href="#find-space" className={`text-sm font-medium transition-colors ${activeSection === 'find-space' ? 'text-blue-600' : 'text-white hover:text-blue-600'}`}>
-              Find Space
-            </a>
-            <a href="#rent-space" className={`text-sm font-medium transition-colors ${activeSection === 'rent-space' ? 'text-blue-600' : 'text-white hover:text-blue-600'}`}>
-              Rent Your Space
-            </a>
+            <AnimatePresence initial={false}>
+              {elements.map((element, index) => (
+                <motion.a
+                  key={`nav-link-${index}`}
+                  href={`#${element.id}`}
+                  className={`text-sm font-medium transition-all ${
+                    activeSection === element.id
+                      ? 'text-blue-500 underline'
+                      : 'text-gray-600 hover:text-blue-600'
+                  }`}
+                  whileHover={{ scale: 1.05 }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  aria-current={activeSection === element.id ? 'page' : undefined}
+                >
+                  {element.title}
+                </motion.a>
+              ))}
+            </AnimatePresence>
           </div>
+
+          {/* Mobile Menu Button */}
+          <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="md:hidden flex items-center justify-center w-12 h-12 bg-gray-800 rounded-full focus:outline-none">
+            <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16m-7 6h7" />
+            </svg>
+          </button>
+
+          {/* Dark Mode Toggle */}
+          <button onClick={toggleColorMode} className="ml-4">
+            {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
+          </button>
         </div>
       </div>
+
+      {/* Mobile Menu */}
+      <AnimatePresence>
+        {isMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className={`absolute top-16 left-0 right-0 ${colorMode === 'dark' ? 'bg-gray-800' : 'bg-white'} shadow-lg md:hidden`}
+          >
+            <div className="flex flex-col items-center space-y-6 py-4">
+              {elements.map((element) => (
+                <a
+                  key={element.id}
+                  href={`#${element.id}`}
+                  className={`text-lg ${activeSection === element.id ? 'text-blue-500' : 'text-gray-600 hover:text-blue-600'}`}
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  {element.title}
+                </a>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </nav>
   );
 }

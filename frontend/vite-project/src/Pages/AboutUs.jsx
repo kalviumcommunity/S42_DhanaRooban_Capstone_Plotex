@@ -1,4 +1,4 @@
-// import React from "react";
+import React from "react";
 
 import { Box, Text, VStack, useBreakpointValue } from "@chakra-ui/react";
 // import Navbar from "../components/Navbar";

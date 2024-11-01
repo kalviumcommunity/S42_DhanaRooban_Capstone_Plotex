@@ -1,23 +1,27 @@
-import React, { useContext } from "react";
-import { Box, Button, Flex, Text, VStack, HStack, useBreakpointValue } from "@chakra-ui/react";
-import Navbar from "../components/Navbar"
+import React from "react";
+import Navbar from "../components/Navbar";
 
 function Home() {
-  const titleFontSize = useBreakpointValue({ base: "lg", md: "xl" });
-  const subtitleFontSize = useBreakpointValue({ base: "md", md: "lg" });
-  const bodyFontSize = useBreakpointValue({ base: "sm", md: "md" });
-
-
   return (
     <>
       <Navbar />
-      <Box id="home" minHeight="100vh" display="flex" flexDirection="column" justifyContent="center" alignItems="center">
-        <VStack spacing={4} width="full" maxWidth="container.md" padding={4}>
-          <Text className="Bold" fontSize={titleFontSize}>Park Smart, Connect Hearts</Text>
-          <Text className="Semibold" fontSize={subtitleFontSize}>Discover Your Ideal Spot, Unlock Your Perfect Ride!</Text>
-          <Text textAlign={{ base: "left", md: "center" }} className="regular" fontSize={bodyFontSize}>No stress Our platform effortlessly matches vehicles with parking spots and rentals in seconds, saving you valuable time.</Text>
-        </VStack>
-      </Box>
+      <div
+        id="home"
+        className="min-h-screen flex flex-col justify-center items-center"
+      >
+        <div className="space-y-4 w-full max-w-3xl px-4">
+          <h1 className="text-lg md:text-xl font-bold text-center">
+            Park Smart, Connect Hearts
+          </h1>
+          <h2 className="text-md md:text-lg font-semibold text-center">
+            Discover Your Ideal Spot, Unlock Your Perfect Ride!
+          </h2>
+          <p className="text-sm md:text-base text-left md:text-center font-normal">
+            No stress! Our platform effortlessly matches vehicles with parking
+            spots and rentals in seconds, saving you valuable time.
+          </p>
+        </div>
+      </div>
     </>
   );
 }
