@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+
 import {
   Box,
   Center,
@@ -9,30 +10,22 @@ import {
   Link,
   Stack,
   Text,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalCloseButton,
-  ModalBody,
-  ModalFooter,
   useDisclosure,
 } from "@chakra-ui/react";
+import { ServicesFunctions } from "../Services/ServicesFunctions";
 import { useForm } from "react-hook-form";
 import { useToast } from "@chakra-ui/react";
 import "../App.css";
 import { NavLink } from "react-router-dom";
 import Google from "../assets/Images/SignPage/Google.png";
-import Microsoft from "../assets/Images/SignPage/microsoft.png";
-import Apple from "../assets/Images/SignPage/apple.png";
 
-import { GoogleAuthProvider,signInWithPhoneNumber, RecaptchaVerifier ,signInWithPopup} from "firebase/auth";
-import { auth } from "../Services/firebaseAuth";
+
+
 
 
 import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
-import toast, { Toaster } from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 import axios from "axios";
 import BASE_URL from "../Config";
 import StoreCookies from "js-cookie";
@@ -40,9 +33,7 @@ import StoreCookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 function SignUpForm() {
   const [isHovered, setIsHovered] = useState(false);
-
-
-  const { isOpen, onClose, onOpen } = useDisclosure();
+  const { handleGoogleSignIn} = ServicesFunctions();
 
   const {
     register,
@@ -60,8 +51,6 @@ function SignUpForm() {
         PhoneNumber: value.phoneNumber.replace(/\D/g, ""),
         Password: value.password.trim(),
       };
-
-      console.log(modifiedData)
       const response = await axios.post(
         `${BASE_URL}/singin`,
         modifiedData,
@@ -88,40 +77,9 @@ function SignUpForm() {
   };
   
 
-  const renderInput = (inputProps) => (
-    <input
-      {...inputProps}
-      style={{ width: "40px", height: "40px", margin: "8px" }}
-    />
-  );
-
-  
 
 
-  const handleGoogleSignIn = async (event) => {
-    event.preventDefault();
-    try {
-      const provider = new GoogleAuthProvider();
-      const result = await signInWithPopup(auth, provider);
-      const profile = result.user;
-      const GoogleUserData = {
-        id: profile.uid,
-        fullName: profile.displayName,
-        givenName: profile.displayName.split(' ')[0],
-        familyName: profile.displayName.split(' ')[1],
-        imageUrl: profile.photoURL,
-        email: profile.email,
-      };
-      const response = await axios.post(
-        `${BASE_URL}/gsign`,
-       
-        { GoogleUserData },
-      );
-      navigate('/home');
-    } catch (error) {
-      console.error("Error signing in with Google:", error);
-    }
-  };
+
 
 
   return (
@@ -227,12 +185,6 @@ function SignUpForm() {
             <Flex justifyContent="space-between" width="40%" mt="5">
               <Button onClick={handleGoogleSignIn} size="sm" w="45px" h="50px">
                 <img src={Google} alt="" />
-              </Button>
-              <Button size="sm" w="45px" h="50px">
-                <img src={Microsoft} alt="" />
-              </Button>
-              <Button size="sm" w="50px" h="50px">
-                <img src={Apple} alt="" />
               </Button>
             </Flex>
           </form>
