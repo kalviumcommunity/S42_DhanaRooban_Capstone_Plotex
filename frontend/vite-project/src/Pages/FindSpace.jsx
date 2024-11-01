@@ -22,11 +22,11 @@ import {
   FormLabel,
   VStack,
 } from "@chakra-ui/react";
-import Navbar from "../components/Navbar";
-import BasicMap from "../components/BasicMap";
+// import Navbar from "../components/Navbar";
+import BasicMap from "../Services/BasicMap";
 import locationIcon from "../assets/Images/SignPage/locationIcon.png";
 import axios from "axios";
-import { useGetIp } from "../components/location";
+import { useGetIp } from "../Services/location";
 import BASE_URL from "../Config";
 import Cookies from "js-cookie";
 import toast from "react-hot-toast"; 
@@ -77,7 +77,7 @@ function FindSpace() {
 
 
   
-  console.log()
+
   const handleAddressChange = (e) => {
     setAddress(e.target.value);
   };
@@ -93,7 +93,7 @@ function FindSpace() {
 
   return (
     <>
-      <Navbar />
+
       {center.lat !== undefined && center.lon !== undefined && <BasicMap center={center} address={address}  nearbyLocations={nearbyLocations}/>}
       <Container
         overflowY="auto"
@@ -103,7 +103,7 @@ function FindSpace() {
         ml={{ base: "2", md: "30" }}
       >
         
-        <Box>
+        <Box id="find-space">
           <form onSubmit={handleSubmit}>
             <FormControl>
               <VStack spacing={4} align="stretch">

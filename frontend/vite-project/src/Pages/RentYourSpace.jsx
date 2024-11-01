@@ -1,7 +1,7 @@
 import { Flex, Box, Heading, Text, Button, Container } from "@chakra-ui/react";
-import Navbar from "../components/Navbar";
-
-import RentForm from "../components/RentForm";
+// import Navbar from "../components/Navbar";
+import RentForm from "../Services/RentForm"
+// import RentForm from "../components/RentForm";
 
 import {
   Modal,
@@ -24,8 +24,8 @@ function RentYourSpace() {
 
   return (
     <>  
-      <Navbar />
-      <Container  bg={bgColor} color={textColor} overflowY="auto"
+      {/* <Navbar /> */}
+      <Container  id="rent-space" bg={bgColor} color={textColor} overflowY="auto"
        p={4}  h="100vh" maxW="100vw" >
         <Flex
           direction={{ base: "column", md: "row" }}

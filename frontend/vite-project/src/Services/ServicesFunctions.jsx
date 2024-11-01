@@ -3,6 +3,7 @@ import axios from "axios";
 import { GoogleAuthProvider,signInWithPopup} from "firebase/auth";
 import { auth } from "../Services/firebaseAuth";
 import { useNavigate } from "react-router-dom";
+
 export const ServicesFunctions = () => {
     const navigate = useNavigate(); 
 

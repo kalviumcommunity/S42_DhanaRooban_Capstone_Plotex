@@ -31,7 +31,7 @@ import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
 import { useForm } from "react-hook-form";
 import locationIcon from "../assets/Images/SignPage/locationIcon.png";
-import { useGetIp } from "../components/location";
+import { useGetIp } from "../Services/location";
 import toast from "react-hot-toast";
 import axios from "axios";
 import BASE_URL from "../Config";

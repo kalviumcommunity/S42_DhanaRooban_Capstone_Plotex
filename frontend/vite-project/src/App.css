@@ -1,61 +1,79 @@
-@font-face {
-  font-family: 'Black';
-  src: url(../public/fonts/Zoho-Puvi-Black.ttf);
- }
- @font-face {
-  font-family: 'Bold-Italic';
-  src: url(../public/fonts/Zoho-Puvi-Bold-Italic.ttf);
- }
- @font-face {
-  font-family: 'Bold';
-  src: url(../public/fonts/Zoho-Puvi-Bold.ttf);
- }
- @font-face {
-  font-family: 'Extrablack';
-  src: url(../public/fonts/Zoho-Puvi-Extrablack.ttf);
- }
- @font-face {
-  font-family: 'Extrabold';
-  src: url(../public/fonts/Zoho-Puvi-Extrabold.ttf);
- }
- @font-face {
-  font-family: 'Extralight';
-  src: url(../public/fonts/Zoho-Puvi-Extralight.ttf);
- }
- @font-face {
-  font-family: 'Light';
-  src: url(../public/fonts/Zoho-Puvi-Light.ttf);
- }
- @font-face {
-  font-family: 'Medium';
-  src: url(../public/fonts/Zoho-Puvi-Medium.ttf);
- }
- @font-face {
-  font-family: 'Regular-Italic';
-  src: url(../public/fonts/Zoho-Puvi-Regular-Italic.ttf);
- }
- @font-face {
-  font-family: 'Regular';
-  src: url(../public/fonts/zoho-puvi-regular.ttf);
- }
- @font-face {
-  font-family: 'Semibold';
-  src: url(../public/fonts/Zoho-Puvi-Semibold.ttf);
- }
- @font-face {
-  font-family: 'SemiboldItalic';
-  src: url(../public/fonts/Zoho-Puvi-Semibold\ Italic.ttf);
- }
- 
- .Semibold {
-  font-family: 'Semibold';
- }
- .Bold{
-  font-family: 'Bold';
- }
- 
- .regular{
-  font-family: 'Regular';
- }
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
- 
+@font-face {
+  font-family: 'Zoho Puvi';
+  src: url('../public/fonts/Zoho-Puvi-Black.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Zoho Puvi';
+  src: url('../public/fonts/Zoho-Puvi-Bold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Zoho Puvi';
+  src: url('../public/fonts/Zoho-Puvi-Bold-Italic.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Zoho Puvi';
+  src: url('../public/fonts/Zoho-Puvi-Extrablack.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Zoho Puvi';
+  src: url('../public/fonts/Zoho-Puvi-Extrabold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Zoho Puvi';
+  src: url('../public/fonts/Zoho-Puvi-Extralight.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Zoho Puvi';
+  src: url('../public/fonts/Zoho-Puvi-Light.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Zoho Puvi';
+  src: url('../public/fonts/Zoho-Puvi-Medium.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Zoho Puvi';
+  src: url('../public/fonts/Zoho-Puvi-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Zoho Puvi';
+  src: url('../public/fonts/Zoho-Puvi-Regular-Italic.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Zoho Puvi';
+  src: url('../public/fonts/Zoho-Puvi-Semibold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Zoho Puvi';
+  src: url('../public/fonts/Zoho-Puvi-SemiboldItalic.ttf') format('truetype');
+}
+
+.Semibold {
+  font-family: 'Zoho Puvi', sans-serif;
+}
+
+.Bold {
+  font-family: 'Zoho Puvi', sans-serif;
+}
+
+.regular {
+  font-family: 'Zoho Puvi', sans-serif;
+}
+
+.text-zoho-black {
+  color: #000000;
+}

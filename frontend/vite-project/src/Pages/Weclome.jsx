@@ -9,16 +9,16 @@ import {
 import UserContext from "../Atoms/UserContext";
 import { useNavigate } from "react-router-dom";
 import { homePageContent } from "../Services/FrontendData";
-import AboutUs from "../Pages/AboutUs";
+import AboutUs from "./AboutUs";
 
-function Home() {
+function Weclome() {
   const [userName, setUserName] = useState('');
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
 
 
-  const handleAccessHome = () => {
-    navigate('/welcome');
-  };
+  // const handleAccessHome = () => {
+  //   navigate('/welcome');
+  // };
 
   return (
     <>
@@ -28,7 +28,7 @@ function Home() {
             Welcome {'Guest!'}
           </Text>
           <Button
-            onClick={handleAccessHome}
+            // onClick={handleAccessHome}
             colorScheme="green"
             size="lg"
             className="Semibold"
@@ -42,4 +42,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default Weclome;
