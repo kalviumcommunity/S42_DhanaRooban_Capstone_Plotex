@@ -22,8 +22,8 @@ function AboutUs() {
           w={{ base: "90%", md: "80%" }}
           h={{base:"80vh",md:"50%"}}
           scrollBehavior={"auto"}
-          bg="black"
-          color="white"
+      
+          color="black"
           borderRadius="20px"
           overflowY="auto"
           p={6}

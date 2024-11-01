@@ -1,6 +1,6 @@
 require("dotenv").config;
 const bcrypt = require("bcrypt");
-const UserDataModel = require("../Schema/Userschema.js");
+const {UserDataModel,GoogleUserModel }= require("../Schema/Userschema.js");
 const {hashPassword} = require("../Middleware/hashPassword")
 const { generateToken } = require("../Middleware/Authentication.js");
 
@@ -104,25 +104,45 @@ const getUserProfile = async (req, res) => {
   }
 };
 
+
 const GoogleAuthentication = async (req, res) => {
   try {
-    console.log("Request body:", req.body);
     const { GoogleUserData } = req.body;
-    console.log(GoogleUserData);
-
     if (!GoogleUserData) {
       return res.status(400).json({ error: "No Google user data provided" });
     }
+    const existingUser = await GoogleUserModel.findOne({ email: GoogleUserData.email });
+    if (existingUser) {
+      const updateFields = {
+        ...existingUser,
+        ...GoogleUserData,
+        _id: existingUser._id 
+      };
+      await GoogleUserModel.findByIdAndUpdate(existingUser._id, { $set: updateFields }, { new: true });
+      const token = await generateToken(existingUser);
 
-    // Process the Google user data here
-    // Example: Store the user data in the database or perform any necessary operations
+      return res.status(200).json({ 
+        message: "Google authentication successful",
+        userData: existingUser,
+        token
+      });
+    } else {
+      const newgUser = new GoogleUserModel({
+        ...GoogleUserData,
+      });
+      await newgUser.save();
 
-    res.status(200).json({ message: "Google authentication successful", userData: GoogleUserData });
+      const token = await generateToken(newgUser);
+      return res.status(200).json({ 
+        message: "Google authentication successful",
+        userData: GoogleUserData,
+        token
+      });
+    }
   } catch (error) {
     console.error("Error during Google authentication:", error);
     res.status(500).json({ error: "An error occurred during Google authentication" });
   }
 };
-
 
 module.exports = { Check, SignIn , getUserProfile,  updateUser, LogIn,GoogleAuthentication };

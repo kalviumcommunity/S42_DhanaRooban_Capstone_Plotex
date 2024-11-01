@@ -6,10 +6,8 @@ const apiLimiter = require('../Middleware/RateLimiter');
 
 router.get("/profile/:token", authenticateToken, getUserProfile);
 router.put('/UpdateUser', updateUser);
-
-router.post('/sign', apiLimiter, SignIn);
 router.post('/singin', apiLimiter, SignIn);
-router.post('/gsingin', apiLimiter, SignIn);
+router.post('/gsign',GoogleAuthentication);
 router.get('/check', apiLimiter, Check);
 router.post('/login', apiLimiter, LogIn);
 

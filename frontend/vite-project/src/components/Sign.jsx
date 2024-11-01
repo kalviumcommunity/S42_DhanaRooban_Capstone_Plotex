@@ -29,7 +29,7 @@ import Apple from "../assets/Images/SignPage/apple.png";
 import { GoogleAuthProvider,signInWithPhoneNumber, RecaptchaVerifier ,signInWithPopup} from "firebase/auth";
 import { auth } from "../Services/firebaseAuth";
 
-import OtpInput from "react-otp-input";
+
 import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
 import toast, { Toaster } from "react-hot-toast";
@@ -40,8 +40,8 @@ import StoreCookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 function SignUpForm() {
   const [isHovered, setIsHovered] = useState(false);
-  const [otp, setOtp] = useState("");
-  const [showOTPInput, setShowOTPInput] = useState(false);
+
+
   const { isOpen, onClose, onOpen } = useDisclosure();
 
   const {
@@ -60,6 +60,8 @@ function SignUpForm() {
         PhoneNumber: value.phoneNumber.replace(/\D/g, ""),
         Password: value.password.trim(),
       };
+
+      console.log(modifiedData)
       const response = await axios.post(
         `${BASE_URL}/singin`,
         modifiedData,
@@ -93,93 +95,7 @@ function SignUpForm() {
     />
   );
 
-  const onCaptchaVerify = () => {
-    if (!window.recaptchaVerifier) {
-      window.recaptchaVerifier = new RecaptchaVerifier(
-        "recaptcha-container",
-        {
-          size: "invisible",
-          callback: (response) => {
-            sendOTP();
-          },
-          "expired-callback": () => {},
-        },
-        auth
-      );
-    }
-  };
-
-  const sendOTP = () => {
-    onCaptchaVerify();
-    const appVerifier = window.recaptchaVerifier;
-    console.log(phoneNumber)
-    signInWithPhoneNumber(auth, phoneNumber, appVerifier)
-      .then((confirmationResult) => {
-        window.confirmationResult = confirmationResult;
-        toast({
-          title: "OTP sent successfully!",
-          status: "success",
-          duration: 4000, 
-          isClosable: true,
-        });
-        setShowOTPInput(true);
-        onOpen();
-      })
-      .catch((error) => {
-        console.error("Error sending OTP:", error);
-        toast({
-          title: "Error sending OTP",
-          description: error.message,
-          status: "error",
-          duration: 4000,
-          isClosable: true,
-        });
-      });
-  };
-
-  const verifyOTP = () => {
-    if (!window.confirmationResult) {
-      toast({
-        title: "Error",
-        description: "No OTP received. Please try again.",
-        status: "error",
-        duration: 4000,
-        isClosable: true,
-      });
-      return;
-    }
-    
-    window.confirmationResult
-      .confirm(otp)
-      .then((result) => {
-        if (result.user) {
-          toast({
-            title: "OTP verified successfully!",
-            status: "success",
-            duration: 4000,
-            isClosable: true,
-          });
-          onClose();
-        } else {
-          toast({
-            title: "Error",
-            description: "OTP verification failed.",
-            status: "error",
-            duration: 4000,
-            isClosable: true,
-          });
-        }
-      })
-      .catch((error) => {
-        toast({
-          title: "Error",
-          description: "Invalid verification code.",
-          status: "error",
-          duration: 4000,
-          isClosable: true,
-        });
-      });
-  };
+  
 
 
   const handleGoogleSignIn = async (event) => {
@@ -188,8 +104,6 @@ function SignUpForm() {
       const provider = new GoogleAuthProvider();
       const result = await signInWithPopup(auth, provider);
       const profile = result.user;
-
-      
       const GoogleUserData = {
         id: profile.uid,
         fullName: profile.displayName,
@@ -198,12 +112,11 @@ function SignUpForm() {
         imageUrl: profile.photoURL,
         email: profile.email,
       };
-    
       const response = await axios.post(
-        `${BASE_URL}/gsignin`,
+        `${BASE_URL}/gsign`,
+       
         { GoogleUserData },
       );
-      console.log('Response from server:', response);
       navigate('/home');
     } catch (error) {
       console.error("Error signing in with Google:", error);
@@ -308,32 +221,7 @@ function SignUpForm() {
               </Button>
             </Box>
 
-            <Modal isOpen={isOpen} onClose={onClose} isCentered>
-              <ModalOverlay />
-              <ModalContent>
-                <ModalHeader>
-                  <ModalCloseButton />
-                </ModalHeader>
-                <ModalBody>
-                  {showOTPInput && (
-                    <OtpInput
-                      numInputs={4}
-                      type="text"
-                      placeholder="Enter OTP"
-                      value={otp}
-                      onChange={setOtp}
-                      renderInput={renderInput}
-                    />
-                  )}
-                </ModalBody>
-                <ModalFooter display="flex" justifyContent="center">
-                  <Button type="submit" onClick={verifyOTP}>
-                    Submit
-                  </Button>
-                </ModalFooter>
-              </ModalContent>
-            </Modal>
-
+          
             <Text>or Sign in using</Text>
 
             <Flex justifyContent="space-between" width="40%" mt="5">

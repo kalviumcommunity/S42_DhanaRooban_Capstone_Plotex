@@ -41,19 +41,6 @@ function Welcome() {
           <Text className="Semibold" fontSize={subtitleFontSize}>Discover Your Ideal Spot, Unlock Your Perfect Ride!</Text>
           <Text textAlign={{ base: "left", md: "center" }} className="regular" fontSize={bodyFontSize}>No stress Our platform effortlessly matches vehicles with parking spots and rentals in seconds, saving you valuable time.</Text>
         </VStack>
-        <form onSubmit={handleSubmit}>
-          <Box display="flex" justifyContent="center">
-            <Button
-              position="absolute"
-              top="120px"
-              right="10px"
-              cursor="pointer"
-              alt="logo"
-            >
-              Delete Account
-            </Button>
-          </Box>
-        </form>
       </Box>
     </>
   );
