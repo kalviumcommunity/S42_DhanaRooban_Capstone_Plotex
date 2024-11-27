@@ -37,7 +37,7 @@ import { ServicesFunctions } from "../Services/ServicesFunctions";
 import { useNavigate } from "react-router-dom";
 
 
-function SignUpForm() {
+function LoginUpForm() {
   const { handleGoogleSignIn} = ServicesFunctions();
   const [isHovered, setIsHovered] = useState(false);
   const [otp, setOtp] = useState("");
@@ -98,9 +98,9 @@ function SignUpForm() {
         alignItems="center"
         position="absolute"
       >
-        <Text fontSize="lg">pLoTeX</Text>
+        <Text fontSize="lg">Plotex</Text>
         <Text className="regular" color="black">
-          Have a  Account?{" "}
+          Create your new plotex Account{" "}
           <Link as="span" color="#f54" className="Semibold">
             <NavLink to="/sign">SIGNIN</NavLink>
           </Link>
@@ -210,4 +210,4 @@ function SignUpForm() {
   );
 }
 
-export default SignUpForm;
+export default LoginUpForm;

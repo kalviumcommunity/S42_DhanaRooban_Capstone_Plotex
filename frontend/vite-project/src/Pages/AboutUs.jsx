@@ -1,7 +1,6 @@
 import React from "react";
 
 import { Box, Text, VStack, useBreakpointValue } from "@chakra-ui/react";
-// import Navbar from "../components/Navbar";
 
 
 function AboutUs() {
@@ -9,7 +8,7 @@ function AboutUs() {
   const titleFontSize = useBreakpointValue({ base: "lg", md: "xl" });
   return (
     <>
-    {/* <Navbar /> */}
+ 
     <Box id ="about"
         display="flex"
         justifyContent="center"

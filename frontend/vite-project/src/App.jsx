@@ -1,35 +1,22 @@
+// App.jsx
 import React from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  Navigate,
-} from "react-router-dom";
-import './index.css';
-
-import MainPage from "./Pages/Mainpage.jsx";
+import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
+import "./index.css";
+import MainPage from "./Pages/mainpage";
+import SignUpForm from "./Pages/Sign"
+import LoginUpForm from "./Pages/Login";
+import Weclome from "./Pages/Weclome";
 function App() {
   return (
-    <>
-<MainPage/>
-    </>
-
-
-);
+    <Router>
+      <Routes>
+        <Route path="/" element={<MainPage />} />
+        <Route path="/login" element={<LoginUpForm />} />
+        <Route path="/sign" element={<SignUpForm />} />
+        <Route path="/home" element={<Weclome />} />
+      </Routes>
+    </Router>
+  );
 }
 
 export default App;
-// <Router>
-//   <Routes>
-//     {/* <Route path="/sign" element={<Sign />} />
-//     <Route path="/login" element={<Login />} />
-//     <Route path="/home" element={<Home />} />
-//     <Route path="/welcome" element={<Welcome />} />
-//     <Route path="/about" element={<AboutUs />} />
-//     <Route path="/find-space" element={<FindSpace />} />
-//     <Route path="/rent-space" element={<RentSpace />} />
-//     <Route path="/map/" element={<BasicMap />} />
-//     <Route path="/" element={<Navigate to="/login" />} />
-//     <Route path="/RentForm" element={<RentForm />} /> */}
-//   </Routes>
-// </Router>

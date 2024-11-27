@@ -18,11 +18,6 @@ import { useToast } from "@chakra-ui/react";
 import "../App.css";
 import { NavLink } from "react-router-dom";
 import Google from "../assets/Images/SignPage/Google.png";
-
-
-
-
-
 import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
 import { Toaster } from "react-hot-toast";
@@ -31,6 +26,8 @@ import BASE_URL from "../Config";
 import StoreCookies from "js-cookie";
 
 import { useNavigate } from "react-router-dom";
+
+
 function SignUpForm() {
   const [isHovered, setIsHovered] = useState(false);
   const { handleGoogleSignIn} = ServicesFunctions();
@@ -93,9 +90,9 @@ function SignUpForm() {
         alignItems="center"
         position="absolute"
       >
-        <Text fontSize="lg">pLoTeX</Text>
+        <Text fontSize="lg">Plotex</Text>
         <Text className="regular" color="black">
-          Have a Dhana Account?{" "}
+          Already have Plotex Account?{" "}
           <Link as="span" color="#f54" className="Semibold">
             <NavLink to="/login">Login</NavLink>
           </Link>
