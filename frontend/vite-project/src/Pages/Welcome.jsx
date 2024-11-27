@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { homePageContent } from "../Services/FrontendData";
 import AboutUs from "./AboutUs";
 
-function Weclome() {
+function Welcomep() {
   const [userName, setUserName] = useState('');
   // const navigate = useNavigate()
 
@@ -42,4 +42,4 @@ function Weclome() {
   );
 }
 
-export default Weclome;
+export default Welcomep ;

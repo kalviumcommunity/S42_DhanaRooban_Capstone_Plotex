@@ -1,6 +1,6 @@
 import React from 'react'
 import AboutUs from './AboutUs'
-import Weclome from './Weclome'
+import Weclome from './Welcome'
 import Home from "./Home"
 import RentYourSpace from "./RentYourSpace"
 import FindSpace from './FindSpace'
