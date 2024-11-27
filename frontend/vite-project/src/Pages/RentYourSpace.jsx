@@ -1,7 +1,6 @@
 import { Flex, Box, Heading, Text, Button, Container } from "@chakra-ui/react";
-// import Navbar from "../components/Navbar";
 import RentForm from "../Services/RentForm"
-// import RentForm from "../components/RentForm";
+
 import React from "react";
 import {
   Modal,
@@ -11,7 +10,6 @@ import {
   ModalBody,
   ModalCloseButton,
   Center,
-  
   useColorModeValue
 } from "@chakra-ui/react";
 import { useState,  } from "react";

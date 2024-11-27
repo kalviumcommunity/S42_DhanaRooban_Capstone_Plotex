@@ -11,9 +11,8 @@ function MainPage() {
       <AboutUs/>
       <FindSpace/>
       <RentYourSpace/>
-
     </div>
   )
 }
 
-export default MainPage
+export default MainPage;

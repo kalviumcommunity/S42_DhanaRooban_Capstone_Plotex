@@ -6,16 +6,8 @@ import {
   Navigate,
 } from "react-router-dom";
 import './index.css';
-// import Login from "./components/Login";
-// import Sign from "./components/Sign";
-// import Home from "./components/Home"; 
-// import Welcome from "./Pages/Welcome";
-// import FindSpace from "./Pages/FindSpace";
-// import RentSpace from "./Pages/RentSpace";
-// import BasicMap from "./components/BasicMap";
-// import AboutUs from "./Pages/AboutUs";
-// import RentForm from "./components/RentForm";
-import MainPage from "./Pages/MainPage";
+
+import MainPage from "./Pages/Mainpage.jsx";
 function App() {
   return (
     <>
