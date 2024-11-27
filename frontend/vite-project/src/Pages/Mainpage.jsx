@@ -9,7 +9,6 @@ import Login from "./Login"
 function MainPage() {
   return (
     <div>  
-
         <Home/>
       <AboutUs/>
       <FindSpace/>
