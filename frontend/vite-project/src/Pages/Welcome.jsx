@@ -6,19 +6,18 @@ import {
   VStack,
   Text,
 } from "@chakra-ui/react";
-import UserContext from "../Atoms/UserContext";
 import { useNavigate } from "react-router-dom";
-import { homePageContent } from "../Services/FrontendData";
-import AboutUs from "./AboutUs";
 
+import AboutUs from "./AboutUs";
+import Home from "./Home";
 function Welcomep() {
   const [userName, setUserName] = useState('');
-  // const navigate = useNavigate()
+  const navigate = useNavigate()
 
 
-  // const handleAccessHome = () => {
-  //   navigate('/welcome');
-  // };
+  const handleAccessHome = () => {
+    navigate('/');
+  };
 
   return (
     <>
@@ -28,7 +27,7 @@ function Welcomep() {
             Welcome {'Guest!'}
           </Text>
           <Button
-            // onClick={handleAccessHome}
+            onClick={handleAccessHome}
             colorScheme="green"
             size="lg"
             className="Semibold"
@@ -37,7 +36,6 @@ function Welcomep() {
           </Button>
         </VStack>
       </Center>
-      <AboutUs />
     </>
   );
 }

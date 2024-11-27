@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import { useNavigate } from "react-router-dom";
 import {
   Box,
   Center,
@@ -25,7 +25,7 @@ import axios from "axios";
 import BASE_URL from "../Config";
 import StoreCookies from "js-cookie";
 
-import { useNavigate } from "react-router-dom";
+
 
 
 function SignUpForm() {
@@ -61,7 +61,7 @@ function SignUpForm() {
         duration: 4000,
         isClosable: true,
       });
-      navigate('/find-space');
+      navigate('/welcomep');
     } catch (error) {
       toast({
         title: "Error",

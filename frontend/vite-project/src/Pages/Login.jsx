@@ -22,9 +22,6 @@ import { useToast } from "@chakra-ui/react";
 import "../App.css";
 import { NavLink } from "react-router-dom";
 import Google from "../assets/Images/SignPage/Google.png";
-import Microsoft from "../assets/Images/SignPage/microsoft.png";
-import Apple from "../assets/Images/SignPage/apple.png";
-// import nearlocation from "../Atoms/l"
 
 import "react-phone-number-input/style.css";
 import toast, { Toaster } from "react-hot-toast";
@@ -71,7 +68,7 @@ function LoginUpForm() {
         duration: 4000,
         isClosable: true,
       });
-      navigate('/home');
+      navigate('/welcomep');
     } catch (error) {
       toast({
         title: "Error",
