@@ -8,8 +8,6 @@ import {
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 
-import AboutUs from "./AboutUs";
-import Home from "./Home";
 function Welcomep() {
   const [userName, setUserName] = useState('');
   const navigate = useNavigate()

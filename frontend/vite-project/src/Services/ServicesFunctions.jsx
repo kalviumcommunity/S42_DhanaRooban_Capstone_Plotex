@@ -26,7 +26,7 @@ export const ServicesFunctions = () => {
            
             { GoogleUserData },
           );
-          navigate('/home');
+          navigate('/welcomep');
         } catch (error) {
           console.error("Error signing in with Google:", error);
         }

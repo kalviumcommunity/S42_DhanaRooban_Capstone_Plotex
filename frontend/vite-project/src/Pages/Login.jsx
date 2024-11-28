@@ -25,7 +25,6 @@ import Google from "../assets/Images/SignPage/Google.png";
 
 import "react-phone-number-input/style.css";
 import toast, { Toaster } from "react-hot-toast";
-import showToast from "react-hot-toast";
 import axios from "axios";
 import BASE_URL from "../Config";
 import StoreCookies from 'js-cookie';
