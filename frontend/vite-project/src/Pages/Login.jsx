@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+
 import {
   Box,
   Center,
@@ -17,13 +18,16 @@ import {
   ModalFooter,
   useDisclosure,
 } from "@chakra-ui/react";
+
 import { useForm } from "react-hook-form";
 import { useToast } from "@chakra-ui/react";
+
 import "../App.css";
 import { NavLink } from "react-router-dom";
 import Google from "../assets/Images/SignPage/Google.png";
 
 import "react-phone-number-input/style.css";
+
 import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
 import BASE_URL from "../Config";

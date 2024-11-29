@@ -1,6 +1,6 @@
 import React from 'react'
 import AboutUs from './AboutUs'
-import Weclome from './Welcome'
+
 import Home from "./Home"
 import RentYourSpace from "./RentYourSpace"
 import FindSpace from './FindSpace'
@@ -16,7 +16,7 @@ function MainPage() {
     const token = document.cookie.split(';').find(row => row.trim().startsWith('authToken'));
     if (token) {
       setIsAuthenticated(true);
-      // navigate('/welcomep');
+      navigate('/');
     }
   }, []);
 
@@ -31,7 +31,9 @@ function MainPage() {
           <RentYourSpace/>
         </>
       ) : (
-        <Login />
+        <>
+        <Login  />
+        </>
       )}
     </div>
   )

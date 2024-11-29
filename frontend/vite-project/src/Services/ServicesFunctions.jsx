@@ -3,9 +3,11 @@ import axios from "axios";
 import { GoogleAuthProvider,signInWithPopup} from "firebase/auth";
 import { auth } from "../Services/firebaseAuth";
 import { useNavigate } from "react-router-dom";
+import StoreCookies from 'js-cookie';
 
 export const ServicesFunctions = () => {
     const navigate = useNavigate(); 
+    
 
     const handleGoogleSignIn = async (event) => {
         event.preventDefault();
@@ -26,6 +28,7 @@ export const ServicesFunctions = () => {
            
             { GoogleUserData },
           );
+          StoreCookies.set('authToken',response.data.token, { expires: 31 });
           navigate('/welcomep');
         } catch (error) {
           console.error("Error signing in with Google:", error);

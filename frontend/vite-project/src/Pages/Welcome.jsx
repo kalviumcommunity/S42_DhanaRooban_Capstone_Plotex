@@ -9,7 +9,6 @@ import {
 import { useNavigate } from "react-router-dom";
 
 function Welcomep() {
-  const [userName, setUserName] = useState('');
   const navigate = useNavigate()
 
 
