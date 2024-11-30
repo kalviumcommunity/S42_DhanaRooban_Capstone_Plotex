@@ -1,5 +1,3 @@
-// src/components/Navbar.jsx
-
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from 'framer-motion';
 import { useColorMode } from "@chakra-ui/react";
@@ -19,8 +17,8 @@ function Navbar() {
 
   useEffect(() => {
     const handleScroll = () => {
-      const scrollY = window.scrollY + 80; // Adjusted for navbar height
-      elements.forEach(({ id }, index) => {
+      const scrollY = window.scrollY + 80;
+      elements.forEach(({ id }) => {
         const section = document.getElementById(id);
         if (section) {
           const { offsetTop, offsetHeight } = section;
@@ -39,14 +37,46 @@ function Navbar() {
     <nav className={`fixed w-full ${colorMode === 'dark' ? 'bg-gray-900' : 'bg-white'} transition-colors border-b shadow-md z-50`}>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          {/* Logo */}
+          {/* Logo and Brand Name */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5 }}
             className="flex items-center space-x-3"
           >
-            <span className={`text-xl font-bold ${colorMode === 'dark' ? 'text-white' : 'text-gray-800'}`}>Plotex</span>
+            <div className="w-8 h-8">
+              <svg
+                viewBox="0 0 32 32"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                className={`w-full h-full ${colorMode === 'dark' ? 'text-white' : 'text-gray-800'}`}
+              >
+                <path
+                  d="M16 2L2 8L16 14L30 8L16 2Z"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <path
+                  d="M2 16L16 22L30 16"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <path
+                  d="M2 24L16 30L30 24"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </div>
+            <span className={`text-xl font-bold ${colorMode === 'dark' ? 'text-white' : 'text-gray-800'}`}>
+              Plotex
+            </span>
           </motion.div>
 
           {/* Desktop Navigation Links */}
@@ -73,17 +103,39 @@ function Navbar() {
             </AnimatePresence>
           </div>
 
-          {/* Mobile Menu Button */}
-          <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="md:hidden flex items-center justify-center w-12 h-12 bg-gray-800 rounded-full focus:outline-none">
-            <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16m-7 6h7" />
-            </svg>
-          </button>
+          {/* Mobile Right Side Controls */}
+          <div className="flex items-center space-x-4">
+            {/* Mobile Menu Button */}
+            <button 
+              onClick={() => setIsMenuOpen(!isMenuOpen)} 
+              className="md:hidden flex items-center justify-center w-10 h-10 rounded-full focus:outline-none"
+            >
+              <svg 
+                xmlns="http://www.w3.org/2000/svg" 
+                className={`w-6 h-6 ${colorMode === 'dark' ? 'text-white' : 'text-gray-800'}`} 
+                fill="none" 
+                viewBox="0 0 24 24" 
+                stroke="currentColor"
+              >
+                <path 
+                  strokeLinecap="round" 
+                  strokeLinejoin="round" 
+                  strokeWidth={2} 
+                  d="M4 6h16M4 12h16m-7 6h7" 
+                />
+              </svg>
+            </button>
 
-          {/* Dark Mode Toggle */}
-          <button onClick={toggleColorMode} className="ml-4">
-            {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
-          </button>
+            {/* Dark Mode Toggle */}
+            <button 
+              onClick={toggleColorMode} 
+              className={`w-10 h-10 flex items-center justify-center rounded-full ${
+                colorMode === 'dark' ? 'text-white' : 'text-gray-800'
+              }`}
+            >
+              {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
+            </button>
+          </div>
         </div>
       </div>
 
