@@ -16,7 +16,11 @@ function  Home() {
           <h2 className="text-md md:text-lg font-semibold text-center">
             Discover Your Ideal Spot, Unlock Your Perfect Ride!
           </h2>
-          <p className="text-sm md:text-base text-left md:text-center font-normal">
+          <p className="text-sm 
+          md:text-base 
+          text-left 
+          md:text-center 
+          font-normal">
             No stress! Our platform effortlessly matches vehicles with parking
             spots and rentals in seconds, saving you valuable time.
           </p>

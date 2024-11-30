@@ -49,7 +49,6 @@ function RentYourSpace() {
                 <Text as="span" fontWeight="bold">
                   PLOTEX
                 </Text>
-                .
               </Text>
               <Button
                 mt="2%"
@@ -94,7 +93,7 @@ function RentYourSpace() {
         </Flex>
         <Modal   isOpen={showRentForm} onClose={() => setShowRentForm(false)}>
           <ModalOverlay />
-          <ModalContent bg={bgColor} color={textColor} maxW="50vw" overflowY="auto" overflowX="auto" m="auto"  >
+          <ModalContent bg={bgColor} color={textColor} maxW={{ base: '100%', md: '50vw' }} overflowY="auto" overflowX="auto" m="auto"  >
             <ModalHeader display="flex" justifyContent="center">List Your Space</ModalHeader>
             <ModalCloseButton />
             <ModalBody>

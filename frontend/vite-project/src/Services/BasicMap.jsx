@@ -45,8 +45,7 @@ function BasicMap({ center, address, nearbyLocations }) {
       }
     });
   }, [nearbyLocations]);
-  
-  console.log(nearbyLocations)
+
   return (
     <Box
       h={{ base: "300px", md: "400px", lg: "500px" }}

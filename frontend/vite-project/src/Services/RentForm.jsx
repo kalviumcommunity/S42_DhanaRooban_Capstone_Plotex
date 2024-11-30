@@ -24,7 +24,7 @@ import {
   AlertDialogContent,
   AlertDialogOverlay,
   AlertDialogCloseButton,
-
+  Stack,
   useColorModeValue,
 } from "@chakra-ui/react";
 import PhoneInput from "react-phone-number-input";
@@ -41,6 +41,11 @@ function RentForm({ setShowRentForm }) {
   const [isLoading, setIsLoading] = useState(false);
   const token = Cookies.get("authToken");
   const [phoneNumber, setPhoneNumber] = useState("");
+
+  // Define color mode values
+  const bgColor = useColorModeValue("white", "gray.800");
+  const textColor = useColorModeValue("gray.800", "white");
+  const borderColor = useColorModeValue("gray.200", "gray.600");
 
   const {
     ipDetails,
@@ -69,10 +74,45 @@ function RentForm({ setShowRentForm }) {
 
   const cancelRef = React.useRef();
 
+  // Mobile stepper component
+  const MobileStepper = ({ activeStep, steps }) => (
+    <Stack spacing={4} width="100%" mb={6}>
+      <Box 
+        p={4} 
+        borderRadius="md" 
+        bg={useColorModeValue('blue.50', 'blue.900')}
+        border="1px solid"
+        borderColor={useColorModeValue('blue.200', 'blue.700')}
+      >
+        <Text fontWeight="bold" fontSize="lg">
+          Step {activeStep + 1} of {steps.length}
+        </Text>
+        <Text fontSize="md" mt={1}>
+          {steps[activeStep].title}
+        </Text>
+        <Text fontSize="sm" color={useColorModeValue('gray.600', 'gray.300')} mt={1}>
+          {steps[activeStep].description}
+        </Text>
+      </Box>
+      <Box 
+        width="100%" 
+        height="2px" 
+        bg={useColorModeValue('gray.200', 'gray.700')}
+      >
+        <Box 
+          width={`${((activeStep + 1) / steps.length) * 100}%`} 
+          height="100%" 
+          bg="blue.500" 
+          transition="width 0.3s ease-in-out"
+        />
+      </Box>
+    </Stack>
+  );
+
   const handleConsent = async () => {
     try {
       await fetchIpDetails();
-       Currentlocation();
+      Currentlocation();
     } catch (error) {
       console.error('Error handling consent:', error);
     }
@@ -95,12 +135,10 @@ function RentForm({ setShowRentForm }) {
         .replace(/[^\w]/g, ""),
     };
 
-  
-
     try {
       const response = await axios.post(
         `${BASE_URL}/profile/RentalUserPost/token`,
-        { modifiedData, ipDetails,center},
+        { modifiedData, ipDetails, center },
         { params: { token } }
       );
       if (response.status === 200 || response.status === 201) {
@@ -133,41 +171,48 @@ function RentForm({ setShowRentForm }) {
     }
   };
 
-  const bgColor = useColorModeValue("white", "black");
-  const textColor = useColorModeValue("black", "white");
-
   return (
     <Container bg={bgColor} color={textColor} maxW="100vw" py={8}>
       <Box
-        display={{ base: "none", md: "Block" }}
         bg={bgColor}
         borderRadius="md"
         boxShadow="md"
         p={6}
+        width="100%"
+        border="1px solid"
+        borderColor={borderColor}
       >
-        <Stepper size="sm" index={activeStep} mb={6}>
-          {steps.map((step, index) => (
-            <Step key={index}>
-              <StepIndicator>
-                <StepStatus
-                  complete={<StepNumber />}
-                  incomplete={<StepNumber />}
-                  active={<StepNumber />}
-                />
-              </StepIndicator>
-              <Box flexShrink="0">
-                <StepTitle>{step.title}</StepTitle>
-                <StepDescription>{step.description}</StepDescription>
-              </Box>
-              {index < steps.length - 1 && <StepSeparator />}
-            </Step>
-          ))}
-        </Stepper>
+        {/* Desktop Stepper */}
+        <Box display={{ base: "none", md: "block" }}>
+          <Stepper size="sm" index={activeStep} mb={6}>
+            {steps.map((step, index) => (
+              <Step key={index}>
+                <StepIndicator>
+                  <StepStatus
+                    complete={<StepNumber />}
+                    incomplete={<StepNumber />}
+                    active={<StepNumber />}
+                  />
+                </StepIndicator>
+                <Box flexShrink="0">
+                  <StepTitle>{step.title}</StepTitle>
+                  <StepDescription>{step.description}</StepDescription>
+                </Box>
+                {index < steps.length - 1 && <StepSeparator />}
+              </Step>
+            ))}
+          </Stepper>
+        </Box>
+
+        {/* Mobile Stepper */}
+        <Box display={{ base: "block", md: "none" }}>
+          <MobileStepper activeStep={activeStep} steps={steps} />
+        </Box>
 
         <form onSubmit={handleSubmit(onSubmit)}>
           {activeStep === 0 && (
-            <>
-              <FormControl mb={4} isInvalid={errors.name}>
+            <Stack spacing={4}>
+              <FormControl isInvalid={errors.name}>
                 <FormLabel>Name</FormLabel>
                 <Input
                   placeholder="Enter your name"
@@ -183,7 +228,7 @@ function RentForm({ setShowRentForm }) {
                 )}
               </FormControl>
 
-              <FormControl mb={4} isInvalid={errors.email}>
+              <FormControl isInvalid={errors.email}>
                 <FormLabel>Email</FormLabel>
                 <Input
                   name="email"
@@ -201,44 +246,59 @@ function RentForm({ setShowRentForm }) {
                 )}
               </FormControl>
 
-              <FormControl mb={4} isInvalid={errors.phoneNumber}>
+              <FormControl isInvalid={errors.phoneNumber}>
                 <FormLabel>Phone Number</FormLabel>
-                <PhoneInput
-                  defaultCountry="IN"
-                  value={phoneNumber}
-                  onChange={setPhoneNumber}
-                />
+                <Box borderRadius="md" overflow="hidden">
+                  <PhoneInput
+                    defaultCountry="IN"
+                    value={phoneNumber}
+                    onChange={setPhoneNumber}
+                    style={{
+                      width: '100%',
+                      padding: '8px',
+                      borderRadius: '4px',
+                      border: '1px solid',
+                      borderColor: errors.phoneNumber ? 'red' : borderColor
+                    }}
+                  />
+                </Box>
                 {errors.phoneNumber && (
                   <Text color="red.500">{errors.phoneNumber.message}</Text>
                 )}
               </FormControl>
 
               <Button
-                mt="2%"
                 w="100%"
-                borderRadius="0"
                 colorScheme="blue"
                 type="button"
                 onClick={nextStep}
               >
                 Next
               </Button>
-            </>
+            </Stack>
           )}
 
           {activeStep === 1 && (
-            <>
-              <FormControl mb={4} isInvalid={errors.Location}>
+            <Stack spacing={4}>
+              <FormControl isInvalid={errors.Location}>
                 <FormLabel>Location</FormLabel>
-                <Button onClick={onOpen} variant="ghost" size="sm" w="100%">
+                <Button 
+                  onClick={onOpen} 
+                  variant="outline" 
+                  size="md" 
+                  w="100%"
+                  display="flex"
+                  alignItems="center"
+                  gap={2}
+                >
                   <Image
                     src={locationIcon}
                     alt="Location Icon"
-                    style={{ width: "20", height: "20px" }}
+                    style={{ width: "20px", height: "20px" }}
                   />
                   Fetch Location
                 </Button>
-                <Text mt={2}>
+                <Text mt={2} fontSize="sm">
                   {address ? `Location: ${address}` : "Location not fetched yet"}
                 </Text>
                 <Input
@@ -253,7 +313,7 @@ function RentForm({ setShowRentForm }) {
                 )}
               </FormControl>
 
-              <FormControl mb={4} isInvalid={errors.vehicleType}>
+              <FormControl isInvalid={errors.vehicleType}>
                 <FormLabel>Vehicle Type</FormLabel>
                 <Select
                   placeholder="Select vehicle type"
@@ -271,7 +331,7 @@ function RentForm({ setShowRentForm }) {
                 )}
               </FormControl>
 
-              <FormControl mb={4} isInvalid={errors.parkingSpaceType}>
+              <FormControl isInvalid={errors.parkingSpaceType}>
                 <FormLabel>Parking Space Type</FormLabel>
                 <Select
                   placeholder="Select parking space type"
@@ -288,20 +348,24 @@ function RentForm({ setShowRentForm }) {
                 )}
               </FormControl>
 
-              <Button
-                w="100%"
-                mt="2%"
-                borderRadius="0"
-                colorScheme="blue"
-                isLoading={isLoading}
-                type="submit"
-              >
-                Submit
-              </Button>
-              <Button w="100%" mt="2%" borderRadius="0" onClick={prevStep}>
-                Previous
-              </Button>
-            </>
+              <Stack spacing={3}>
+                <Button
+                  w="100%"
+                  colorScheme="blue"
+                  isLoading={isLoading}
+                  type="submit"
+                >
+                  Submit
+                </Button>
+                <Button 
+                  w="100%" 
+                  variant="outline" 
+                  onClick={prevStep}
+                >
+                  Previous
+                </Button>
+              </Stack>
+            </Stack>
           )}
         </form>
       </Box>
