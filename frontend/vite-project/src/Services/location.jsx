@@ -60,11 +60,11 @@ export const useGetIp = () => {
         `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`
       );
       setAddress(response.data.display_name);
-    
     } catch (error) {
       console.error('Error fetching address:', error);
     }
   };
+
 
   const fetchNearbyLocations = async () => {
     try {

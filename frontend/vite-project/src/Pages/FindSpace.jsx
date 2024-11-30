@@ -22,7 +22,6 @@ import {
   FormLabel,
   VStack,
 } from "@chakra-ui/react";
-// import Navbar from "../components/Navbar";
 import BasicMap from "../Services/BasicMap";
 import locationIcon from "../assets/Images/SignPage/locationIcon.png";
 import axios from "axios";
@@ -34,6 +33,7 @@ import toast from "react-hot-toast";
 function FindSpace() {
   const { isOpen, onOpen, onClose, loading, setLoading, center, address, Currentlocation, fetchIpDetails ,fetchNearbyLocations,fetchAddress,nearbyLocations} = useGetIp(); 
   const [error, setError] = useState("");
+  console.log(nearbyLocations);
   const [formValues, setFormValues] = useState({
     location: "",
     vehicleType: "",

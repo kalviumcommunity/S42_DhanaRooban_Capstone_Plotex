@@ -4,8 +4,11 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from 'leaflet';
 import locationIcon from "../assets/Images/SignPage/locationIcon.png";
+import Logo from "../assets/Images/Logo.png"
+import { useGetIp } from "./location";
 
-// Fix for the default icon issue in react-leaflet
+
+//Fix for the default icon issue in react-leaflet
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: import('leaflet/dist/images/marker-icon-2x.png'),
@@ -14,13 +17,14 @@ L.Icon.Default.mergeOptions({
 });
 
 function BasicMap({ center, address, nearbyLocations }) {
+  
   const MarkerIcon = new L.Icon({
     iconUrl: locationIcon,
     iconSize: [50, 50],
   });
 
   const parkingIcon = new L.Icon({
-    iconUrl: locationIcon,  
+    iconUrl: Logo,  
     iconSize: [32, 32],
   });
 
@@ -30,8 +34,10 @@ function BasicMap({ center, address, nearbyLocations }) {
     ? [center.lat, center.lon] 
     : [defaultCenter.lat, defaultCenter.lon];
 
+
+  
+    
   useEffect(() => {
-    // Log the coordinates of nearbyLocations
     nearbyLocations.forEach((location, index) => {
       if (location.location && location.location.coordinates) {
         const [lon, lat] = location.location.coordinates;
@@ -39,7 +45,8 @@ function BasicMap({ center, address, nearbyLocations }) {
       }
     });
   }, [nearbyLocations]);
-
+  
+  console.log(nearbyLocations)
   return (
     <Box
       h={{ base: "300px", md: "400px", lg: "500px" }}
@@ -60,12 +67,11 @@ function BasicMap({ center, address, nearbyLocations }) {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         />
         
-        <Marker position={mapCenter} icon={MarkerIcon}>
+        {/* <Marker position={mapCenter} icon={MarkerIcon}>
           <Popup>
             {address ? address : "Your location"}
           </Popup>
-        </Marker>
-
+        </Marker> */}
         {nearbyLocations.map((location, index) => {
           if (location.location && location.location.coordinates) {
             const [lon, lat] = location.location.coordinates;
@@ -76,8 +82,13 @@ function BasicMap({ center, address, nearbyLocations }) {
                 icon={parkingIcon}
               >
                 <Popup>
-                  {location.email}<br />
-                  {location.RentalUserDetails.location}
+                <div>
+                    <p><b>Name:</b> 📝 {location.RentalUserDetails.name}</p>
+                    <p><b>Email:</b> 📧 {location.email}</p>
+                    <p><b>Parking Space:</b> 🛅 {location.RentalUserDetails.parkingSpace}</p>
+                    <p><b>Phone Number:</b> 📞 {location.RentalUserDetails.phoneNumber}</p>
+                    <p><b>Vehicle Type:</b> {getVehicleEmoji(location.RentalUserDetails.vehicleType)}</p>
+                  </div>
                 </Popup>
               </Marker>
             );
@@ -87,6 +98,20 @@ function BasicMap({ center, address, nearbyLocations }) {
       </MapContainer>
     </Box>
   );
+}
+
+
+function getVehicleEmoji(type) {
+  switch(type.toLowerCase()) {
+    case 'car':
+      return '🚗';
+    case 'truck':
+      return '🛻';
+    case 'bike':
+      return '🛵';
+    default:
+      return '🚗';
+  }
 }
 
 export default BasicMap;
