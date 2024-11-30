@@ -21,36 +21,56 @@ import {
   Text,
   FormLabel,
   VStack,
+  Grid,
+  Heading,
+  Icon,
+  useColorModeValue,
+  Flex,
 } from "@chakra-ui/react";
+import { FaMapMarkerAlt, FaCar, FaPhone, FaSearch } from "react-icons/fa";
 import BasicMap from "../Services/BasicMap";
 import locationIcon from "../assets/Images/SignPage/locationIcon.png";
 import axios from "axios";
 import { useGetIp } from "../Services/location";
 import BASE_URL from "../Config";
 import Cookies from "js-cookie";
-import toast from "react-hot-toast"; 
+import toast from "react-hot-toast";
 
 function FindSpace() {
-  const { isOpen, onOpen, onClose, loading, setLoading, center, address, Currentlocation, fetchIpDetails ,fetchNearbyLocations,fetchAddress,nearbyLocations} = useGetIp(); 
+  const {
+    isOpen,
+    onOpen,
+    onClose,
+    loading,
+    setLoading,
+    center,
+    address,
+    Currentlocation,
+    fetchIpDetails,
+    fetchNearbyLocations,
+    nearbyLocations,
+  } = useGetIp();
+  
   const [error, setError] = useState("");
-  console.log(nearbyLocations);
   const [formValues, setFormValues] = useState({
     location: "",
     vehicleType: "",
     MobileNumber: "",
   });
+  
   const token = Cookies.get("authToken");
- 
+  const bgColor = useColorModeValue("white", "gray.800");
+  const cardBg = useColorModeValue("gray.50", "gray.700");
+  const borderColor = useColorModeValue("gray.200", "gray.600");
+
   const handleConsent = async () => {
     try {
-      await fetchIpDetails(); 
-      await Currentlocation(); 
-  
+      await fetchIpDetails();
+      await Currentlocation();
     } catch (error) {
-        console.error('Error handling consent:', error);
+      console.error("Error handling consent:", error);
     }
-};
-
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -58,7 +78,7 @@ function FindSpace() {
     try {
       const response = await axios.post(
         `${BASE_URL}/profile/FindSpace/token`,
-        { ...formValues, location: address ,Currentlocation:center }, 
+        { ...formValues, location: address, Currentlocation: center },
         {
           params: {
             token: token,
@@ -66,7 +86,7 @@ function FindSpace() {
         }
       );
       toast.success("Data submitted successfully!");
-      await fetchNearbyLocations(); 
+      await fetchNearbyLocations();
     } catch (error) {
       console.error(error);
       setError("An error occurred while submitting the form.");
@@ -75,13 +95,9 @@ function FindSpace() {
     }
   };
 
-
-  
-
   const handleAddressChange = (e) => {
     setAddress(e.target.value);
   };
-
 
   const handleChange = (name) => (value) => {
     setFormValues((prevValues) => ({
@@ -89,72 +105,120 @@ function FindSpace() {
       [name]: value,
     }));
   };
+
   const cancelRef = React.useRef();
 
   return (
     <>
-
-      {center.lat !== undefined && center.lon !== undefined && <BasicMap center={center} address={address}  nearbyLocations={nearbyLocations}/>}
-      <Container
-        overflowY="auto"
-        p={4}
-        border="2px solid black"
-        margin="200"
-        ml={{ base: "2", md: "30" }}
-      >
+      <Container maxW="container.xl" py={8} px={4} id="find-space">
+        {/* Map Section */}
         
-        <Box id="find-space">
-          <form onSubmit={handleSubmit}>
-            <FormControl>
-              <VStack spacing={4} align="stretch">
-                <InputGroup>
-                  <Input
-                    borderColor="gray.300"
-                    placeholder="Enter your address"
-                    name="location"
-                    value={address} 
-                    onChange={handleAddressChange} 
-                  />
-                  <InputLeftElement>
-                    <Button onClick={onOpen} variant="ghost" size="sm">
-                      <Image src={locationIcon} alt="Location Icon" />
-                    </Button>
-                  </InputLeftElement>
-                </InputGroup>
-                <Box>
+
+        {/* Search Form Section */}
+        <Grid templateColumns={{ base: "1fr", md: "1fr 2fr" }} gap={8}>
+          {/* Form */}
+          <Box
+            bg={cardBg}
+            p={6}
+            borderRadius="xl"
+            border="1px"
+            borderColor={borderColor}
+            shadow="md"
+          >
+            <Heading size="md" mb={6}>Find Available Parking</Heading>
+            <form onSubmit={handleSubmit}>
+              <VStack spacing={6}>
+                <FormControl>
+                  <FormLabel>Location</FormLabel>
+                  <InputGroup>
+                    <InputLeftElement>
+                      <Button onClick={onOpen} variant="ghost" size="sm">
+                        <Icon as={FaMapMarkerAlt} color="blue.500" />
+                      </Button>
+                    </InputLeftElement>
+                    <Input
+                      borderColor={borderColor}
+                      placeholder="Enter your address"
+                      value={address}
+                      onChange={handleAddressChange}
+                      _focus={{ borderColor: "blue.500" }}
+                    />
+                  </InputGroup>
+                </FormControl>
+
+                <FormControl>
                   <FormLabel>Vehicle Type</FormLabel>
-                  <Select
-                    placeholder="Select vehicle type"
-                    name="vehicleType"
-                    value={formValues.vehicleType}
-                    onChange={(e) => handleChange("vehicleType")(e.target.value)}
-                  >
-                    <option value="car">Car</option>
-                    <option value="motorcycle">Motorcycle/Scooter</option>
-                    <option value="truck">Truck/Van</option>
-                    <option value="other">Others</option>
-                  </Select>
-                </Box>
-                <FormControl mb={4} isInvalid={error.phoneNumber}>
+                  <InputGroup>
+                    <InputLeftElement>
+                      <Icon as={FaCar} color="blue.500" />
+                    </InputLeftElement>
+                    <Select
+                      pl={10}
+                      placeholder="Select vehicle type"
+                      value={formValues.vehicleType}
+                      onChange={(e) => handleChange("vehicleType")(e.target.value)}
+                      borderColor={borderColor}
+                    >
+                      <option value="car">Car</option>
+                      <option value="motorcycle">Motorcycle/Scooter</option>
+                      <option value="truck">Truck/Van</option>
+                      <option value="other">Others</option>
+                    </Select>
+                  </InputGroup>
+                </FormControl>
+
+                <FormControl isInvalid={error.phoneNumber}>
                   <FormLabel>Phone Number</FormLabel>
-                  <PhoneInput
-                    defaultCountry="IN"
-                    value={formValues.MobileNumber}
-                    onChange={(value) => handleChange("MobileNumber")(value)}
-                  />
+                  <Box borderRadius="md" borderColor={borderColor} border="1px" p={2}>
+                    <PhoneInput
+                      defaultCountry="IN"
+                      value={formValues.MobileNumber}
+                      onChange={(value) => handleChange("MobileNumber")(value)}
+                    />
+                  </Box>
                   {error.phoneNumber && (
-                    <Text color="red.500">{error.phoneNumber.message}</Text>
+                    <Text color="red.500" mt={2} fontSize="sm">
+                      {error.phoneNumber.message}
+                    </Text>
                   )}
                 </FormControl>
-                <Button type="submit" mt={4} w="full">
-                  Submit
+
+                <Button
+                  type="submit"
+                  w="full"
+                  colorScheme="blue"
+                  size="lg"
+                  isLoading={loading}
+                  leftIcon={<FaSearch />}
+                >
+                  Search Spaces
                 </Button>
               </VStack>
-            </FormControl>
-          </form>
-        </Box>
+            </form>
+          </Box>
+          <Box
+            bg={cardBg}
+            p={6}
+            borderRadius="xl"
+            border="1px"
+            borderColor={borderColor}
+            shadow="md"
+          >
+            <Heading size="md" mb={6}>Available Parking Spaces</Heading>
+            {center ? (
+  <Box mb={8} borderRadius="xl" overflow="hidden" border="1px" borderColor={borderColor}>
+    {center.lat !== undefined && center.lon !== undefined && (
+      <BasicMap center={center} address={address} nearbyLocations={nearbyLocations} />
+    )}
+  </Box>
+) : (
+  <Text color="gray.500">No parking spaces found nearby. Try searching in a different location.</Text>
+)}
+          </Box>
+        </Grid>
       </Container>
 
+      {/* Location Consent Dialog */}
       <AlertDialog
         motionPreset="slideInBottom"
         leastDestructiveRef={cancelRef}
