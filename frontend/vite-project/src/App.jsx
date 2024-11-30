@@ -11,7 +11,6 @@ import Welcomep from "./Pages/Welcome"; // Corrected import name
 
 function App() {
   return (
-    
       <Router>
         <Routes>
           <Route path="/" element={<MainPage />} />

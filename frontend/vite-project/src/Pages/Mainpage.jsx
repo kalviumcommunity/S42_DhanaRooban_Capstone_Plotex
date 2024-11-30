@@ -4,7 +4,7 @@ import AboutUs from './AboutUs'
 import Home from "./Home"
 import RentYourSpace from "./RentYourSpace"
 import FindSpace from './FindSpace'
-import Login from "./Login"
+import SignUpForm from './Sign'
 import { useNavigate } from "react-router-dom";
 
 function MainPage() {
@@ -32,7 +32,7 @@ function MainPage() {
         </>
       ) : (
         <>
-        <Login  />
+        <SignUpForm  />
         </>
       )}
     </div>
