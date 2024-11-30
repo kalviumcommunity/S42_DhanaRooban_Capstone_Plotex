@@ -67,11 +67,11 @@ function BasicMap({ center, address, nearbyLocations }) {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         />
         
-        {/* <Marker position={mapCenter} icon={MarkerIcon}>
+        <Marker position={mapCenter} icon={MarkerIcon}>
           <Popup>
             {address ? address : "Your location"}
           </Popup>
-        </Marker> */}
+        </Marker>
         {nearbyLocations.map((location, index) => {
           if (location.location && location.location.coordinates) {
             const [lon, lat] = location.location.coordinates;
