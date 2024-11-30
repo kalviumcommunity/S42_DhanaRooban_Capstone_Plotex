@@ -100,9 +100,9 @@ function LoginUpForm() {
       >
         <Text fontSize="lg">Plotex</Text>
         <Text className="regular" color="black">
-          Create your new plotex Account{" "}
+          Create your new Account{" "}
           <Link as="span" color="#f54" className="Semibold">
-            <NavLink to="/sign">SIGNIN</NavLink>
+            <NavLink to="/sign">SignIn</NavLink>
           </Link>
         </Text>
       </Box>
