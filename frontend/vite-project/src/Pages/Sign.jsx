@@ -144,11 +144,12 @@ function SignUpForm() {
 
             <label>Phone Number</label>
             <PhoneInput
-              mb={4}
+            
               className="form-control"
+               placeholder="Phonenumber"
               name="phoneNumber"
               defaultCountry="IN"
-              style={{ width: "100%" }}
+              style={{ width: "100%", border: "1px solid black" }}
               {...register("phoneNumber", {
                 required: "Phone number is required",
               })}
