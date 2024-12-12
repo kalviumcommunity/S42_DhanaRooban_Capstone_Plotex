@@ -48,16 +48,17 @@ function FindSpace() {
     Currentlocation,
     fetchIpDetails,
     fetchNearbyLocations,
+    accuracy,
     nearbyLocations,
   } = useGetIp();
-  
+
   const [error, setError] = useState("");
   const [formValues, setFormValues] = useState({
     location: "",
     vehicleType: "",
     MobileNumber: "",
   });
-  
+
   const token = Cookies.get("authToken");
   const bgColor = useColorModeValue("white", "gray.800");
   const cardBg = useColorModeValue("gray.50", "gray.700");
@@ -111,12 +112,7 @@ function FindSpace() {
   return (
     <>
       <Container maxW="container.xl" py={8} px={4} id="find-space">
-        {/* Map Section */}
-        
-
-        {/* Search Form Section */}
         <Grid templateColumns={{ base: "1fr", md: "1fr 2fr" }} gap={8}>
-          {/* Form */}
           <Box
             bg={cardBg}
             p={6}
@@ -206,14 +202,14 @@ function FindSpace() {
           >
             <Heading size="md" mb={6}>Available Parking Spaces</Heading>
             {center ? (
-  <Box mb={8} borderRadius="xl" overflow="hidden" border="1px" borderColor={borderColor}>
-    {center.lat !== undefined && center.lon !== undefined && (
-      <BasicMap center={center} address={address} nearbyLocations={nearbyLocations} />
-    )}
-  </Box>
-) : (
-  <Text color="gray.500">No parking spaces found nearby. Try searching in a different location.</Text>
-)}
+              <Box mb={8} borderRadius="xl" overflow="hidden" border="1px" borderColor={borderColor}>
+                {center.lat !== undefined && center.lon !== undefined && (
+                  <BasicMap center={center} address={address} nearbyLocations={nearbyLocations} accuracy={accuracy} />
+                )}
+              </Box>
+            ) : (
+              <Text color="gray.500">No parking spaces found nearby. Try searching in a different location.</Text>
+            )}
           </Box>
         </Grid>
       </Container>

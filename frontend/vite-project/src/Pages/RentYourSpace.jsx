@@ -55,7 +55,7 @@ function RentYourSpace() {
                 w={{ base: "100%", md: "10vw" }}
                 borderRadius="1"
                 bg={bgColor} color={textColor} 
-                _hover={{ bg: "black" }}
+                _hover={{ bg: "white" }}
                 onClick={() => setShowRentForm(!showRentForm)}
               >
                 List Now
@@ -93,7 +93,7 @@ function RentYourSpace() {
         </Flex>
         <Modal   isOpen={showRentForm} onClose={() => setShowRentForm(false)}>
           <ModalOverlay />
-          <ModalContent bg={bgColor} color={textColor} maxW={{ base: '100%', md: '50vw' }} overflowY="auto" overflowX="auto" m="auto"  >
+          <ModalContent  color={textColor} maxW={{ base: '100%', md: '50vw' }} overflowY="auto" overflowX="auto" m="auto"  >
             <ModalHeader display="flex" justifyContent="center">List Your Space</ModalHeader>
             <ModalCloseButton />
             <ModalBody>

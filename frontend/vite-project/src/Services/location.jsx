@@ -6,6 +6,7 @@ import { toast } from 'react-hot-toast';
 import BASE_URL from '../Config';
 
 export const useGetIp = () => {
+  const [accuracy, setAccuracy] = useState(null);
   const [ipDetails, setIpDetails] = useState(null);
   const [address, setAddress] = useState('');
   const [center, setCenter] = useState({ lat: undefined, lon: undefined });
@@ -25,34 +26,38 @@ export const useGetIp = () => {
     }
   };
 
-
   const Currentlocation = () => {
     setLoading(true);
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const { latitude, longitude } = position.coords;
-          setCenter({ lat: latitude, lon: longitude });
-          fetchAddress(latitude, longitude);
-          setLocationFetched(true);
-          setLoading(false);
-          onClose();
-          toast.success('Location fetched successfully!');
-        },
-        (error) => {
-          console.error('Error getting location:', error);
-          setLoading(false);
-          toast.error('Failed to fetch location. Please try again.');
-        }
-      );
-    } else {
-      console.error('Geolocation is not supported by this browser.');
-      setLoading(false);
-      toast.error('Geolocation is not supported by your browser.');
-    }
-  };
+    const intervalId = setInterval(() => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const { latitude, longitude, accuracy } = position.coords;
+            setCenter({ lat: latitude, lon: longitude });
+            setAccuracy(accuracy);
+            fetchAddress(latitude, longitude);
+            setLocationFetched(true);
+            setLoading(false);
+            onClose();
+            toast.success('Location fetched successfully!');
+          },
+          (error) => {
+            console.error('Error getting location:', error);
+            setLoading(false);
+            toast.error('Failed to fetch location. Please try again.');
+          }
+        );
+      } else {
+        console.error('Geolocation is not supported by this browser.');
+        setLoading(false);
+        toast.error('Geolocation is not supported by your browser.');
+      }
+    }, 5000); 
 
- 
+    useEffect(() => {
+      return () => clearInterval(intervalId);
+    }, []);
+  };
 
   const fetchAddress = async (latitude, longitude) => {
     try {
@@ -64,7 +69,6 @@ export const useGetIp = () => {
       console.error('Error fetching address:', error);
     }
   };
-
 
   const fetchNearbyLocations = async () => {
     try {
@@ -106,6 +110,7 @@ export const useGetIp = () => {
     nearbyLocations,
     locationFetched,
     loading,
+    accuracy,
     setLoading,
     isOpen,
     onOpen,
